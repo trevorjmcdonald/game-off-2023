@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6ujos1lk6k7q"]
+
+[ext_resource type="PackedScene" uid="uid://bk2dys7u0jnb5" path="res://prototypes/lizard_dentist/assets/lizard_tooth.gltf" id="1_gncyg"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="lizard_tooth" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13682, 0, -0.102965)
+
+[node name="lizard_tooth2" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.183467, 0, -0.102965)
+
+[node name="lizard_tooth3" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.72551, 0, -0.102965)
+
+[node name="lizard_tooth4" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.64546, 0, -0.102965)
+
+[node name="lizard_tooth5" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 1.66216, 2.61221, -0.102965)
+
+[node name="lizard_tooth6" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0.708811, 2.61221, -0.102965)
+
+[node name="lizard_tooth7" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.200166, 2.61221, -0.102965)
+
+[node name="lizard_tooth8" parent="." instance=ExtResource("1_gncyg")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -1.12012, 2.61221, -0.102965)

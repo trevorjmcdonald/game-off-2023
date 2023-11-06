@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bokjlsuvn7wdj"]
+
+[ext_resource type="Script" path="res://prototypes/scale_match_three/levels/MatchGame.gd" id="1_tmi6q"]
+[ext_resource type="PackedScene" uid="uid://c4b3ak3vuiagn" path="res://prototypes/scale_match_three/entities/match_box.tscn" id="2_os5vs"]
+[ext_resource type="PackedScene" uid="uid://bonrl4pocfpmf" path="res://prototypes/scale_match_three/entities/spawner.tscn" id="3_n3fyd"]
+[ext_resource type="PackedScene" uid="uid://cv1wuvbph4w8u" path="res://prototypes/scale_match_three/entities/match_floor.tscn" id="4_lqisr"]
+
+[node name="MatchGame" type="Node3D"]
+script = ExtResource("1_tmi6q")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.19183, 6.01392)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+
+[node name="MatchBox" parent="." instance=ExtResource("2_os5vs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.79752, 0)
+
+[node name="Spawner" parent="." instance=ExtResource("3_n3fyd")]
+
+[node name="Floor" parent="." instance=ExtResource("4_lqisr")]

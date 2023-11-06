@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bonrl4pocfpmf"]
+
+[ext_resource type="Script" path="res://prototypes/scale_match_three/entities/Spawner.gd" id="1_b2qts"]
+[ext_resource type="PackedScene" uid="uid://c4b3ak3vuiagn" path="res://prototypes/scale_match_three/entities/match_box.tscn" id="2_g7mwt"]
+
+[node name="Spawner" type="Node3D"]
+script = ExtResource("1_b2qts")
+spawn_object = ExtResource("2_g7mwt")
+
+[node name="Timer" type="Timer" parent="."]

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MatchBoxType" load_steps=3 format=3 uid="uid://cmcg7j4adx3v1"]
+
+[ext_resource type="Script" path="res://prototypes/scale_match_three/resources/MatchBoxType.gd" id="1_km6h8"]
+[ext_resource type="Material" uid="uid://dday2jx8d18rc" path="res://prototypes/scale_match_three/entities/cube_materials/cube_yellow.tres" id="2_xwbm7"]
+
+[resource]
+script = ExtResource("1_km6h8")
+override_material = ExtResource("2_xwbm7")
+matches_with = Array[ExtResource("1_km6h8")]([])
+match_with_self = true
+weight = 1
