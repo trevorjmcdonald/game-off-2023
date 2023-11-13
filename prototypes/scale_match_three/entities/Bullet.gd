@@ -1,18 +1,17 @@
 extends AnimatableBody3D
 class_name Bullet
 
-@export var speed := 10.0
-@export var power := 1
+var _velocity := Vector3.ZERO
+var _power := 1
 
-var _move_direction := Vector3.ZERO
-
-func set_move_direction(dir: Vector3) -> void:
-	_move_direction.x = dir.normalized().x
+func initialize(velocity: Vector3, power: int = 1) -> void:
+	_velocity = velocity
+	_power = power
 
 func _physics_process(delta: float) -> void:
-	var collision = move_and_collide(Vector3.UP * speed * delta)
+	var collision = move_and_collide(_velocity * delta)
 	if collision:
 		var collider = collision.get_collider()
 		if collider is MatchBox:
-			collider.move_x(_move_direction * power)
+			collider.move_x(_velocity.normalized() * _power)
 			queue_free()

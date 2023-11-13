@@ -1,0 +1,195 @@
+[gd_scene load_steps=15 format=3 uid="uid://6mtrgvrgkax5"]
+
+[ext_resource type="Script" path="res://prototypes/death_scale/environment/ScaleManager.gd" id="1_illso"]
+[ext_resource type="Script" path="res://prototypes/death_scale/ui/BalanceWeight.gd" id="1_uetso"]
+[ext_resource type="Script" path="res://prototypes/death_scale/environment/BlockSpawner.gd" id="2_hq5w7"]
+[ext_resource type="Script" path="res://prototypes/death_scale/player/PlayerController.gd" id="2_kdxlt"]
+[ext_resource type="PackedScene" uid="uid://cccwtfx16spwq" path="res://prototypes/death_scale/entities/block.tscn" id="3_ah0t0"]
+[ext_resource type="Script" path="res://prototypes/death_scale/environment/Balance.gd" id="3_jcaad"]
+[ext_resource type="Script" path="res://prototypes/death_scale/controllers/AIController.gd" id="3_osvdr"]
+[ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="5_ev315"]
+[ext_resource type="PackedScene" uid="uid://ccrmrq78hkpxo" path="res://prototypes/death_scale/abilities/blast.tscn" id="6_b4617"]
+[ext_resource type="PackedScene" uid="uid://ddoeujgkmdctp" path="res://prototypes/death_scale/environment/murderzone.tscn" id="10_s4c2n"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s6fyj"]
+height = 0.1
+radius = 3.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hkck0"]
+height = 8.0
+radius = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5567"]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_skspg"]
+radius = 0.1
+height = 0.5
+
+[node name="DeathScale" type="Node3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LeftBalanceWeight" type="Label" parent="CanvasLayer" node_paths=PackedStringArray("balance")]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "0.0
+"
+script = ExtResource("1_uetso")
+balance = NodePath("../../LeftBalance")
+
+[node name="RightBalanceWeight" type="Label" parent="CanvasLayer" node_paths=PackedStringArray("balance")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 26.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "0.0"
+script = ExtResource("1_uetso")
+balance = NodePath("../../RightBalance")
+
+[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
+script = ExtResource("2_kdxlt")
+buddy = NodePath("../DeathScaleBuddy")
+
+[node name="AIController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
+script = ExtResource("3_osvdr")
+buddy = NodePath("../DeathScaleBuddy2")
+
+[node name="ScaleManager" type="Node" parent="." node_paths=PackedStringArray("scale_arm", "left_balance", "right_balance")]
+script = ExtResource("1_illso")
+scale_arm = NodePath("../ScaleArm")
+left_balance = NodePath("../LeftBalance")
+right_balance = NodePath("../RightBalance")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
+
+[node name="PerspectiveCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 13)
+visible = false
+fov = 45.0
+size = 12.0
+
+[node name="OrthogonalCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 13)
+projection = 1
+current = true
+fov = 45.0
+size = 12.0
+
+[node name="ScaleBody" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49515)
+radius = 0.25
+height = 20.0
+
+[node name="ScaleArm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -1.49515)
+
+[node name="ScaleArmMesh" type="CSGCylinder3D" parent="ScaleArm"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 1.5)
+radius = 0.25
+height = 10.0
+
+[node name="BlockSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
+script = ExtResource("2_hq5w7")
+block_scene = ExtResource("3_ah0t0")
+action = &"move_left"
+
+[node name="Timer" type="Timer" parent="BlockSpawner"]
+wait_time = 0.5
+
+[node name="BlockSpawner2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0858, 5, 0)
+script = ExtResource("2_hq5w7")
+block_scene = ExtResource("3_ah0t0")
+action = &"move_right"
+
+[node name="Timer" type="Timer" parent="BlockSpawner2"]
+wait_time = 0.5
+
+[node name="LeftBalance" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
+script = ExtResource("3_jcaad")
+
+[node name="BalanceMesh" type="CSGCylinder3D" parent="LeftBalance"]
+radius = 3.0
+height = 0.1
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftBalance"]
+shape = SubResource("CylinderShape3D_s6fyj")
+
+[node name="Area3D" type="Area3D" parent="LeftBalance"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftBalance/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("CylinderShape3D_hkck0")
+
+[node name="RightBalance" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0)
+script = ExtResource("3_jcaad")
+
+[node name="BalanceMesh" type="CSGCylinder3D" parent="RightBalance"]
+radius = 3.0
+height = 0.1
+sides = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightBalance"]
+shape = SubResource("CylinderShape3D_s6fyj")
+
+[node name="Area3D" type="Area3D" parent="RightBalance"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightBalance/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("CylinderShape3D_hkck0")
+
+[node name="DeathScaleBuddy" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9882, 1.72837, 0)
+collision_layer = 4
+axis_lock_linear_z = true
+platform_on_leave = 2
+platform_floor_layers = 4294901763
+script = ExtResource("5_ev315")
+blast_scene = ExtResource("6_b4617")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathScaleBuddy"]
+shape = SubResource("CapsuleShape3D_e5567")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeathScaleBuddy"]
+mesh = SubResource("CapsuleMesh_skspg")
+
+[node name="DeathScaleBuddy2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.46082, 1.72837, 0)
+collision_layer = 4
+collision_mask = 3
+axis_lock_linear_z = true
+platform_on_leave = 2
+platform_floor_layers = 4294901763
+platform_wall_layers = 2
+script = ExtResource("5_ev315")
+blast_scene = ExtResource("6_b4617")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathScaleBuddy2"]
+shape = SubResource("CapsuleShape3D_e5567")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DeathScaleBuddy2"]
+mesh = SubResource("CapsuleMesh_skspg")
+
+[node name="Bottom Murderzone" parent="." instance=ExtResource("10_s4c2n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
+
+[node name="Left Murderzone" parent="." instance=ExtResource("10_s4c2n")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -39, 4.59642, 0)
+
+[node name="Right Murderzone" parent="." instance=ExtResource("10_s4c2n")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 39, 4.59642, 0)

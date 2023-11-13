@@ -10,6 +10,7 @@ signal found_matches(matches: Array[MatchBox])
 @export var fall_rate: float = 2.0
 @export var max_match_distance: float = 10.0
 @export var min_matches := 3
+@export var weight := 1.0
 
 
 ##### OnReady
@@ -21,9 +22,7 @@ var _matchbox_type: MatchBoxType
 var _target_x := 0.0
 var _force_move := false
 var _force_move_to := Vector3.ZERO
-var _sitting_on: WeakRef
-var _sit_delta := Vector3.ZERO
-var _check_for_matches := false
+var _grounded := false
 
 
 ##### Public Methods
@@ -37,21 +36,14 @@ func is_paused() -> bool:
 	return _paused
 
 func move_x(val: Vector3) -> void:
-	_target_x += val.x
-
-func move_left(dist: int = 1) -> void:
-	_target_x -= dist
-
-func move_right(dist: int = 1) -> void:
-	_target_x += dist
+	if is_equal_approx(_target_x, global_position.x):
+		_target_x += snappedf(val.x, 1)
 
 func get_type() -> MatchBoxType:
 	return _matchbox_type
 
 func is_match(other: MatchBox) -> bool:
-	if _sitting_on and _sitting_on.get_ref():
-		return _matchbox_type.is_match(other.get_type())
-	return false
+	return _grounded and _matchbox_type.is_match(other.get_type())
 
 func set_type(type: MatchBoxType) -> void:
 	var mesh_instance = $MeshInstance3D as MeshInstance3D
@@ -59,8 +51,6 @@ func set_type(type: MatchBoxType) -> void:
 	_matchbox_type = type
 
 func check_for_matches() -> void:
-	print("checking for matches")
-
 	var matches_h: Array[MatchBox] = []
 	var matches_v: Array[MatchBox] = []
 	# Check for horizontal matches
@@ -79,7 +69,7 @@ func move_to(pos: Vector3) -> void:
 	_force_move_to = pos
 
 func is_grounded() -> bool:
-	return _sitting_on and _sitting_on.get_ref()
+	return _grounded
 
 
 ##### Private Methods
@@ -90,8 +80,8 @@ func _get_matches(dir: Vector3) -> Array[MatchBox]:
 	var check_against: MatchBox = self
 	var checking := true
 	while checking:
-		var query = PhysicsRayQueryParameters3D.create(\
-			global_position,\
+		var query = PhysicsRayQueryParameters3D.create(
+			global_position,
 			global_position + dir.normalized() * max_match_distance)
 		query.exclude = exclude_rids
 
@@ -110,61 +100,48 @@ func _get_matches(dir: Vector3) -> Array[MatchBox]:
 	return matches
 
 func _move(delta: float) -> void:
+	var check_matches := false
 	if _force_move:
 		var target_x_diff = _force_move_to.x - global_position.x
 		global_position = _force_move_to
 		_force_move = false
 		_target_x += target_x_diff
-		return
 
-	if _sitting_on and _sitting_on.get_ref():
-		if global_position - _sitting_on.get_ref().global_position != _sit_delta:
-			global_position = _sitting_on.get_ref().global_position + _sit_delta
-		if _check_for_matches:
-			_check_for_matches = false
-			check_for_matches()
-		return
+	if not is_equal_approx(_target_x, global_position.x):
+		var move := Vector3(_target_x - global_position.x, 0, 0).normalized()
+		if move_rate * delta < abs(_target_x - global_position.x):
+			move *= move_rate * delta
+		else:
+			move *= _target_x - global_position.x
+		var collision = move_and_collide(move)
+		if collision:
+			var collider = collision.get_collider()
+			if collider is MatchBox:
+				global_position.x = snappedf(global_position.x, 0.5)
+				_target_x = global_position.x
+				check_matches = true
+		elif abs(_target_x - global_position.x) < 0.1:
+			global_position.x = _target_x
 
-	var final_movement := global_position
-	var movement := Vector3.ZERO
-	if _target_x < global_position.x:
-		movement.x = max(-move_rate * delta, _target_x - global_position.x)
-	elif _target_x > global_position.x:
-		movement.x = min(move_rate * delta, _target_x - global_position.x)
-
-	var collision = move_and_collide(movement, true)
+	var collision = move_and_collide(Vector3.DOWN * fall_rate * delta)
 	if collision:
 		var collider = collision.get_collider()
-		if collider is MatchBox:
-			_target_x = global_position.x
-		final_movement.x = collision.get_travel().x
-	else:
-		final_movement.x = movement.x
-
-	movement.x = 0
-	movement.y = -fall_rate * delta
-	collision = move_and_collide(movement, true)
-	if collision:
-		var collider = collision.get_collider()
-		if collider is MatchFloor or collider is MatchBox:
-			_sitting_on = weakref(collider)
-			_sit_delta = global_position - _sitting_on.get_ref().global_position
-			_check_for_matches = true
+		if collider is MatchBox or collider is MatchFloor:
+			global_position.y = snappedf(global_position.y, 0.5)
+			if not _grounded:
+				_grounded = true
+				check_matches = true
 		elif collider is MatchBuddy:
-			collider.murder()
-		final_movement.y = collision.get_travel().y
+			if collider.global_position.y <= global_position.y - 0.5:
+				collider.crush()
+				_grounded = false
 	else:
-		_sitting_on = null
-		final_movement.y = movement.y
+		_grounded = false
 
-	move_and_collide(final_movement)
-
+	if check_matches:
+		check_for_matches()
 
 ##### Overrides
-func _ready() -> void:
-	#reached_target.connect(_on_reached_target)
-	pass
-
 func _physics_process(delta: float) -> void:
 	if _paused:
 		return
@@ -172,6 +149,4 @@ func _physics_process(delta: float) -> void:
 
 
 ##### Event Handlers
-#func _on_reached_target() -> void:
-#	check_for_matches()
 

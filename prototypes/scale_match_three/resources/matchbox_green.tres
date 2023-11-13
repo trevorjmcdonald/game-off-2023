@@ -8,3 +8,4 @@ script = ExtResource("1_uuogh")
 override_material = ExtResource("1_qfpc7")
 matches_with = Array[ExtResource("1_uuogh")]([])
 match_with_self = true
+weight = 1

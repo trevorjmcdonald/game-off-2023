@@ -30,10 +30,10 @@ class_name Floor
 "
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ynep"]
-size = Vector3(10, 0.1, 1)
+size = Vector3(15.9, 0.1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_jp4jt"]
-size = Vector3(10, 0.1, 1)
+size = Vector3(16, 0.1, 1)
 
 [node name="Floor" type="AnimatableBody3D"]
 script = SubResource("GDScript_py6fc")

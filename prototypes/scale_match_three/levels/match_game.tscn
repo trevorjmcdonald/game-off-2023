@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bokjlsuvn7wdj"]
+[gd_scene load_steps=14 format=3 uid="uid://nul4qmtg3uxm"]
 
 [ext_resource type="Script" path="res://prototypes/scale_match_three/levels/MatchGame.gd" id="1_tmi6q"]
+[ext_resource type="Script" path="res://prototypes/scale_match_three/entities/FollowCamera.gd" id="2_dricw"]
 [ext_resource type="Script" path="res://prototypes/scale_match_three/entities/MatchBoxCollection.gd" id="3_fi7oa"]
 [ext_resource type="PackedScene" uid="uid://bonrl4pocfpmf" path="res://prototypes/scale_match_three/entities/spawner.tscn" id="3_n3fyd"]
 [ext_resource type="PackedScene" uid="uid://cv1wuvbph4w8u" path="res://prototypes/scale_match_three/entities/match_floor.tscn" id="4_lqisr"]
@@ -11,25 +12,31 @@
 [ext_resource type="Script" path="res://prototypes/scale_match_three/entities/MatchFloor.gd" id="9_vkr3p"]
 [ext_resource type="PackedScene" uid="uid://c3ou6758ydenb" path="res://prototypes/scale_match_three/entities/match_buddy.tscn" id="10_cyl7t"]
 [ext_resource type="PackedScene" uid="uid://dddcmfdu26wvu" path="res://prototypes/scale_match_three/entities/death_zone.tscn" id="11_8ru7l"]
+[ext_resource type="Script" path="res://prototypes/scale_match_three/entities/WeightManager.gd" id="12_00m3y"]
 
 [node name="MatchGame" type="Node3D"]
 script = ExtResource("1_tmi6q")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.99779, 11.972)
+[node name="FollowCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target", "bottom", "top")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 10)
 projection = 1
 current = true
-size = 18.0
+size = 11.0
+script = ExtResource("2_dricw")
+target = NodePath("../MatchBuddy")
+bottom = NodePath("../WeightManager")
+top = NodePath("../Ceiling")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 
 [node name="Spawner" parent="." node_paths=PackedStringArray("spawn_parent") instance=ExtResource("3_n3fyd")]
 spawn_parent = NodePath("../MatchBoxCollection")
 
-[node name="MatchBoxCollection" type="Node3D" parent="." node_paths=PackedStringArray("spawner")]
+[node name="MatchBoxCollection" type="Node3D" parent="." node_paths=PackedStringArray("spawner", "weight_manager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 script = ExtResource("3_fi7oa")
 spawner = NodePath("../Spawner")
+weight_manager = NodePath("../WeightManager")
 matchbox_types = Array[Resource("res://prototypes/scale_match_three/resources/MatchBoxType.gd")]([ExtResource("4_oxen5"), ExtResource("5_cmrn6"), ExtResource("6_mjfdn"), ExtResource("7_jufp4")])
 
 [node name="Floor" parent="." instance=ExtResource("4_lqisr")]
@@ -40,4 +47,13 @@ script = ExtResource("9_vkr3p")
 [node name="MatchBuddy" parent="." instance=ExtResource("10_cyl7t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.816663, 0)
 
-[node name="DeathZone" parent="." instance=ExtResource("11_8ru7l")]
+[node name="WeightManager" type="Node3D" parent="."]
+script = ExtResource("12_00m3y")
+weight_mod = 0.5
+drop_rate = 0.2
+
+[node name="DeathZone" parent="WeightManager" instance=ExtResource("11_8ru7l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="Ceiling" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
