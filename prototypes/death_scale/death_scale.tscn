@@ -1,31 +1,21 @@
-[gd_scene load_steps=15 format=3 uid="uid://6mtrgvrgkax5"]
+[gd_scene load_steps=17 format=3 uid="uid://6mtrgvrgkax5"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/ScaleManager.gd" id="1_illso"]
 [ext_resource type="Script" path="res://prototypes/death_scale/ui/BalanceWeight.gd" id="1_uetso"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/BlockSpawner.gd" id="2_hq5w7"]
 [ext_resource type="Script" path="res://prototypes/death_scale/player/PlayerController.gd" id="2_kdxlt"]
 [ext_resource type="PackedScene" uid="uid://cccwtfx16spwq" path="res://prototypes/death_scale/entities/block.tscn" id="3_ah0t0"]
-[ext_resource type="Script" path="res://prototypes/death_scale/environment/Balance.gd" id="3_jcaad"]
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/AIController.gd" id="3_osvdr"]
-[ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="5_ev315"]
-[ext_resource type="PackedScene" uid="uid://ccrmrq78hkpxo" path="res://prototypes/death_scale/abilities/blast.tscn" id="6_b4617"]
+[ext_resource type="ArrayMesh" uid="uid://c2y14vh0aoxuo" path="res://prototypes/death_scale/assets/scale_body.res" id="5_1kb77"]
+[ext_resource type="ArrayMesh" uid="uid://c5sa3m3xgronb" path="res://prototypes/death_scale/assets/scale_body_top.res" id="6_23wkw"]
+[ext_resource type="PackedScene" uid="uid://cimbkscpmsjrm" path="res://prototypes/death_scale/environment/balance.tscn" id="7_k35y8"]
+[ext_resource type="ArrayMesh" uid="uid://dn2iv4vvpv1sc" path="res://prototypes/death_scale/assets/scale_arm_1.res" id="7_v14dk"]
+[ext_resource type="PackedScene" uid="uid://f754ydhv3faj" path="res://prototypes/death_scale/entities/death_scale_buddy.tscn" id="8_6qtoa"]
+[ext_resource type="ArrayMesh" uid="uid://4h40ub53je3w" path="res://prototypes/death_scale/assets/scale_arm_1_tip.res" id="8_ecmq7"]
+[ext_resource type="ArrayMesh" uid="uid://cy4x706gffn3q" path="res://prototypes/death_scale/assets/scale_pivot.res" id="9_fhxip"]
+[ext_resource type="ArrayMesh" uid="uid://lrqpqbatrgxq" path="res://prototypes/death_scale/assets/scale_arm_2.res" id="10_ph6ef"]
 [ext_resource type="PackedScene" uid="uid://ddoeujgkmdctp" path="res://prototypes/death_scale/environment/murderzone.tscn" id="10_s4c2n"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_s6fyj"]
-height = 0.1
-radius = 3.0
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_hkck0"]
-height = 8.0
-radius = 3.0
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5567"]
-radius = 0.1
-height = 0.5
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_skspg"]
-radius = 0.1
-height = 0.5
+[ext_resource type="ArrayMesh" uid="uid://bb8o0c2trmvo4" path="res://prototypes/death_scale/assets/scale_arm_2_tip.res" id="11_c6mbu"]
 
 [node name="DeathScale" type="Node3D"]
 
@@ -54,11 +44,11 @@ balance = NodePath("../../RightBalance")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("2_kdxlt")
-buddy = NodePath("../DeathScaleBuddy")
+buddy = NodePath("../LeftDeathScaleBuddy")
 
 [node name="AIController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("3_osvdr")
-buddy = NodePath("../DeathScaleBuddy2")
+buddy = NodePath("../RightDeathScaleBuddy")
 
 [node name="ScaleManager" type="Node" parent="." node_paths=PackedStringArray("scale_arm", "left_balance", "right_balance")]
 script = ExtResource("1_illso")
@@ -67,13 +57,7 @@ left_balance = NodePath("../LeftBalance")
 right_balance = NodePath("../RightBalance")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0)
-
-[node name="PerspectiveCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 13)
-visible = false
-fov = 45.0
-size = 12.0
+transform = Transform3D(1, 0, 0, 0, 0.814936, 0.579551, 0, -0.579551, 0.814936, 0, 12, 15)
 
 [node name="OrthogonalCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 13)
@@ -82,18 +66,44 @@ current = true
 fov = 45.0
 size = 12.0
 
-[node name="ScaleBody" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.49515)
-radius = 0.25
-height = 20.0
+[node name="ScaleBody" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.870441, -1.00484)
+
+[node name="Body" type="MeshInstance3D" parent="ScaleBody"]
+transform = Transform3D(-15.3505, 0, -4.51237, 0, 16, 0, 4.51237, 0, -15.3505, 0, -11.1967, 0)
+mesh = ExtResource("5_1kb77")
+
+[node name="Top" type="MeshInstance3D" parent="ScaleBody"]
+transform = Transform3D(-12.4002, 0, -10.1112, 0, 16, 0, 10.1112, 0, -12.4002, 0, 6.8, 0)
+mesh = ExtResource("6_23wkw")
 
 [node name="ScaleArm" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -1.49515)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.62956, 6.31809e-06)
 
-[node name="ScaleArmMesh" type="CSGCylinder3D" parent="ScaleArm"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 1.5)
-radius = 0.25
-height = 10.0
+[node name="LeftArm" type="MeshInstance3D" parent="ScaleArm"]
+transform = Transform3D(-2.89693e-07, 16, -9.89076e-07, 15.4548, 5.35814e-07, 4.14111, 4.14111, -8.80396e-07, -15.4548, 0.05, 0, 0)
+gi_mode = 0
+mesh = ExtResource("7_v14dk")
+
+[node name="LeftArmTip" type="MeshInstance3D" parent="ScaleArm"]
+transform = Transform3D(-2.89693e-07, 16, -9.89076e-07, 15.4548, 5.35814e-07, 4.14111, 4.14111, -8.80396e-07, -15.4548, -0.05, 0, 0)
+gi_mode = 0
+mesh = ExtResource("8_ecmq7")
+
+[node name="Pivot" type="MeshInstance3D" parent="ScaleArm"]
+transform = Transform3D(16, -6.0633e-14, -2.65035e-21, 0, -6.99382e-07, 16, -6.0633e-14, -16, -6.99382e-07, 0, 0, 0)
+gi_mode = 0
+mesh = ExtResource("9_fhxip")
+
+[node name="RightArm" type="MeshInstance3D" parent="ScaleArm"]
+transform = Transform3D(1.68846e-06, -16, -9.89076e-07, -15.4548, -1.88692e-06, 4.14111, -4.14111, 5.18369e-07, -15.4548, -0.05, 0, 0)
+gi_mode = 0
+mesh = ExtResource("10_ph6ef")
+
+[node name="RightArmTip" type="MeshInstance3D" parent="ScaleArm"]
+transform = Transform3D(1.68846e-06, -16, -9.89076e-07, -15.4548, -1.88692e-06, 4.14111, -4.14111, 5.18369e-07, -15.4548, -0.05, 0, 0)
+gi_mode = 0
+mesh = ExtResource("11_c6mbu")
 
 [node name="BlockSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
@@ -113,77 +123,17 @@ action = &"move_right"
 [node name="Timer" type="Timer" parent="BlockSpawner2"]
 wait_time = 0.5
 
-[node name="LeftBalance" type="AnimatableBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, 0)
-script = ExtResource("3_jcaad")
+[node name="LeftBalance" parent="." instance=ExtResource("7_k35y8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17459, 1.21534, 0)
 
-[node name="BalanceMesh" type="CSGCylinder3D" parent="LeftBalance"]
-radius = 3.0
-height = 0.1
-sides = 16
+[node name="RightBalance" parent="." instance=ExtResource("7_k35y8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.07936, 1.21534, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftBalance"]
-shape = SubResource("CylinderShape3D_s6fyj")
+[node name="LeftDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9882, 1.88624, 0)
 
-[node name="Area3D" type="Area3D" parent="LeftBalance"]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftBalance/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-shape = SubResource("CylinderShape3D_hkck0")
-
-[node name="RightBalance" type="AnimatableBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0)
-script = ExtResource("3_jcaad")
-
-[node name="BalanceMesh" type="CSGCylinder3D" parent="RightBalance"]
-radius = 3.0
-height = 0.1
-sides = 16
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightBalance"]
-shape = SubResource("CylinderShape3D_s6fyj")
-
-[node name="Area3D" type="Area3D" parent="RightBalance"]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightBalance/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-shape = SubResource("CylinderShape3D_hkck0")
-
-[node name="DeathScaleBuddy" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9882, 1.72837, 0)
-collision_layer = 4
-axis_lock_linear_z = true
-platform_on_leave = 2
-platform_floor_layers = 4294901763
-script = ExtResource("5_ev315")
-blast_scene = ExtResource("6_b4617")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathScaleBuddy"]
-shape = SubResource("CapsuleShape3D_e5567")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DeathScaleBuddy"]
-mesh = SubResource("CapsuleMesh_skspg")
-
-[node name="DeathScaleBuddy2" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.46082, 1.72837, 0)
-collision_layer = 4
-collision_mask = 3
-axis_lock_linear_z = true
-platform_on_leave = 2
-platform_floor_layers = 4294901763
-platform_wall_layers = 2
-script = ExtResource("5_ev315")
-blast_scene = ExtResource("6_b4617")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathScaleBuddy2"]
-shape = SubResource("CapsuleShape3D_e5567")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DeathScaleBuddy2"]
-mesh = SubResource("CapsuleMesh_skspg")
+[node name="RightDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1.85787, 0)
 
 [node name="Bottom Murderzone" parent="." instance=ExtResource("10_s4c2n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)

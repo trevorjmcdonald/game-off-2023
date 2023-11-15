@@ -12,5 +12,5 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_pressed("player1_jump"):
 		buddy.jump()
-	if Input.is_action_pressed("player1_shoot"):
+	if Input.is_action_pressed("player1_ability_1"):
 		buddy.blast()
