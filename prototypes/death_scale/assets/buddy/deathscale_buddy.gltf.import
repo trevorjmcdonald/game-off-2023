@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dr7ajqil3d73n"
-path="res://.godot/imported/deathscale_buddy.gltf-454253cba5aff7eb32cefbb77bf89fd5.scn"
+uid="uid://2jg66aetcven"
+path="res://.godot/imported/deathscale_buddy.gltf-a28827723ecb07abd439f3a3ce2ca961.scn"
 
 [deps]
 
-source_file="res://prototypes/death_scale/assets/deathscale_buddy.gltf"
-dest_files=["res://.godot/imported/deathscale_buddy.gltf-454253cba5aff7eb32cefbb77bf89fd5.scn"]
+source_file="res://prototypes/death_scale/assets/buddy/deathscale_buddy.gltf"
+dest_files=["res://.godot/imported/deathscale_buddy.gltf-a28827723ecb07abd439f3a3ce2ca961.scn"]
 
 [params]
 
 nodes/root_type="Node3D"
-nodes/root_name="buddy"
+nodes/root_name="Scene Root"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true

@@ -30,7 +30,16 @@ move_right = &"player1_move_right"
 ability_1 = &"player1_ability_1"
 ability_2 = &"player1_ability_2"
 ability_3 = &"player1_ability_3"
-paused = true
+
+[node name="Player2Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
+script = ExtResource("2_kdxlt")
+buddy = NodePath("../RightDeathScaleBuddy")
+jump = &"player2_jump"
+move_left = &"player2_move_left"
+move_right = &"player2_move_right"
+ability_1 = &"player2_ability_1"
+ability_2 = &"player2_ability_2"
+ability_3 = &"player2_ability_3"
 
 [node name="AIController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("3_osvdr")
@@ -40,24 +49,21 @@ paused = true
 [node name="ScaleManager" type="Node" parent="." node_paths=PackedStringArray("scale_arm", "left_chain_connector", "right_chain_connector", "left_balance", "right_balance")]
 script = ExtResource("1_illso")
 scale_arm = NodePath("../ScaleArm")
-left_chain_connector = NodePath("../ScaleArm/ChainConnector1")
-right_chain_connector = NodePath("../ScaleArm/ChainConnector2")
+left_chain_connector = NodePath("../ScaleArm/ArmTip_Right/ChainConnector1")
+right_chain_connector = NodePath("../ScaleArm/ArmTip_Left/ChainConnector2")
 left_balance = NodePath("../LeftBalance")
 right_balance = NodePath("../RightBalance")
 chain_mat = SubResource("StandardMaterial3D_ij76v")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.814936, 0.579551, 0, -0.579551, 0.814936, 0, 12, 15)
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.519921, 0.854214, 0, -0.854214, -0.519921, 0, 12, -20.0407)
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 12, 15)
 
 [node name="OrthogonalCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 13)
 projection = 1
 current = true
 fov = 45.0
-size = 9.5
+size = 11.0
 
 [node name="ScaleBody" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.870441, -1.00484)
@@ -73,21 +79,18 @@ mesh = ExtResource("5_x3jlj")
 [node name="ScaleArm" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 
-[node name="ChainConnector1" type="Node3D" parent="ScaleArm"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.25, 0, 0)
-
-[node name="ChainConnector2" type="Node3D" parent="ScaleArm"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.10176, 0, 0)
-
 [node name="Arm_Right" type="MeshInstance3D" parent="ScaleArm"]
-transform = Transform3D(-2.89693e-07, 16, -9.89076e-07, 15.4548, 5.35814e-07, 4.14111, 4.14111, -8.80396e-07, -15.4548, 0.05, 0, 0)
+transform = Transform3D(-5.82675e-07, 19.2, -2.33361e-06, 15.4548, 1.40017e-06, 4.14111, 4.14111, -2.52395e-06, -15.4548, 0.065, 0, 0)
 gi_mode = 0
 mesh = ExtResource("6_12lhf")
 
 [node name="ArmTip_Right" type="MeshInstance3D" parent="ScaleArm"]
-transform = Transform3D(-2.89693e-07, 16, -9.89076e-07, 15.4548, 5.35814e-07, 4.14111, 4.14111, -8.80396e-07, -15.4548, -0.05, 0, 0)
+transform = Transform3D(-5.82675e-07, 19.2, -2.33361e-06, 15.4548, 1.40017e-06, 4.14111, 4.14111, -2.52395e-06, -15.4548, -0.055, 0, 0)
 gi_mode = 0
 mesh = ExtResource("7_th420")
+
+[node name="ChainConnector1" type="Node3D" parent="ScaleArm/ArmTip_Right"]
+transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55784e-09, -8.21597e-09, -9.11568e-09, 0.0161762, -0.0603704, 0, -0.325, 4.47035e-08)
 
 [node name="Pivot" type="MeshInstance3D" parent="ScaleArm"]
 transform = Transform3D(16, -6.0633e-14, -2.65035e-21, 0, -6.99382e-07, 16, -6.0633e-14, -16, -6.99382e-07, 0, 0, 0)
@@ -95,14 +98,17 @@ gi_mode = 0
 mesh = ExtResource("8_qvsxl")
 
 [node name="Arm_Left" type="MeshInstance3D" parent="ScaleArm"]
-transform = Transform3D(1.68846e-06, -16, -9.89076e-07, -15.4548, -1.88692e-06, 4.14111, -4.14111, 5.18369e-07, -15.4548, -0.05, 0, 0)
+transform = Transform3D(1.98144e-06, -19.2, -2.33361e-06, -15.4548, -3.02149e-06, 4.14111, -4.14111, 2.08951e-06, -15.4548, -0.055, 0, 0)
 gi_mode = 0
 mesh = ExtResource("9_dvbh3")
 
 [node name="ArmTip_Left" type="MeshInstance3D" parent="ScaleArm"]
-transform = Transform3D(1.68846e-06, -16, -9.89076e-07, -15.4548, -1.88692e-06, 4.14111, -4.14111, 5.18369e-07, -15.4548, -0.05, 0, 0)
+transform = Transform3D(1.98144e-06, -19.2, -2.33361e-06, -15.4548, -3.02149e-06, 4.14111, -4.14111, 2.08951e-06, -15.4548, -0.055, 0, 0)
 gi_mode = 0
 mesh = ExtResource("10_fs1qp")
+
+[node name="ChainConnector2" type="Node3D" parent="ScaleArm/ArmTip_Left"]
+transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83558e-09, 6.8018e-09, -9.11568e-09, 0.0161762, -0.0603704, 2.98023e-08, -0.321985, -4.47035e-08)
 
 [node name="BlockSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
@@ -123,16 +129,16 @@ action = &"move_right"
 wait_time = 0.5
 
 [node name="LeftBalance" parent="." instance=ExtResource("7_k35y8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17459, 1.21534, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.17459, 1.21534, 0)
 
 [node name="RightBalance" parent="." instance=ExtResource("7_k35y8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.07936, 1.21534, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.07936, 1.21534, 0)
 
 [node name="LeftDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.18511, 1.88624, 0)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -6.19744, 1.345, 0)
 
 [node name="RightDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 5.08431, 1.85787, 0)
+transform = Transform3D(-4, -3.49691e-07, 5.28019e-14, -3.49691e-07, 4, -6.03983e-07, 0, -6.03983e-07, -4, 6.08662, 1.36674, 0)
 
 [node name="Bottom Murderzone" parent="." instance=ExtResource("10_s4c2n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)
