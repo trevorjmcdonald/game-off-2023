@@ -1,18 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://f754ydhv3faj"]
+[gd_scene load_steps=7 format=3 uid="uid://f754ydhv3faj"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="1_w66en"]
 [ext_resource type="PackedScene" uid="uid://ccrmrq78hkpxo" path="res://prototypes/death_scale/abilities/blast.tscn" id="2_1ff85"]
+[ext_resource type="PackedScene" uid="uid://dr7ajqil3d73n" path="res://prototypes/death_scale/assets/deathscale_buddy.gltf" id="3_6o645"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5567"]
 radius = 0.1
 height = 0.5
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_skspg"]
-radius = 0.1
-height = 0.5
+[sub_resource type="Animation" id="Animation_h5jdu"]
+resource_name = "walk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_li38o"]
+_data = {
+"walk": SubResource("Animation_h5jdu")
+}
 
 [node name="DeathScaleBuddy" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9882, 1.72837, 0)
 collision_layer = 4
 axis_lock_linear_z = true
 platform_on_leave = 2
@@ -23,5 +27,10 @@ blast_scene = ExtResource("2_1ff85")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_e5567")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_skspg")
+[node name="buddy" parent="." instance=ExtResource("3_6o645")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.0433922, -0.201773, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_li38o")
+}

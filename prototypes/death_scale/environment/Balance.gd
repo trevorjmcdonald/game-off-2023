@@ -22,6 +22,12 @@ func calculate_total_mass() -> float:
 			total_mass += body.mass
 	return total_mass
 
+func get_left_chain_connector() -> Node3D:
+	return $ChainConnector1
+
+func get_right_chain_connector() -> Node3D:
+	return $ChainConnector2
+
 func _ready() -> void:
 	rigidboy_monitor.body_entered.connect(on_rigidbody_monitor_body_entered)
 	rigidboy_monitor.body_exited.connect(on_rigidbody_monitor_body_exited)

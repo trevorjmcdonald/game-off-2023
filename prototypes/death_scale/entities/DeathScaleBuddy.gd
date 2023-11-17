@@ -11,13 +11,33 @@ var _blast_timer := 0.0
 func move(movement: Vector3) -> void:
 	_movement = movement
 
-func jump() -> void:
+func start_jump() -> void:
 	if is_on_floor() and not _is_jumping:
 		_is_jumping = true
 
-func blast() -> void:
+func stop_jump() -> void:
+	_is_jumping = false
+
+func start_ability_1() -> void:
 	if _blast_timer <= 0.0:
 		_is_blasting = true
+
+func stop_ability_1() -> void:
+	_is_blasting = false
+
+func start_ability_2() -> void:
+	if _blast_timer <= 0.0:
+		_is_blasting = true
+
+func stop_ability_2() -> void:
+	_is_blasting = false
+
+func start_ability_3() -> void:
+	if _blast_timer <= 0.0:
+		_is_blasting = true
+
+func stop_ability_3() -> void:
+	_is_blasting = false
 
 func _physics_process(delta: float) -> void:
 	velocity.x = _movement.x * 5
@@ -35,3 +55,7 @@ func _physics_process(delta: float) -> void:
 		new_blast.global_position = global_position
 	else:
 		_blast_timer = maxf(_blast_timer - delta, 0)
+
+	var facing := signf(_movement.x)
+	if facing != 0:
+		scale.x = facing

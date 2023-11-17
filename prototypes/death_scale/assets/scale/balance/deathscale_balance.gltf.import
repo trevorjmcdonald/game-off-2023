@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bff4ff2spyrcm"
-path="res://.godot/imported/deathscale_balance.gltf-97a087d24f928ef161f9cd0aac89b94d.scn"
+path="res://.godot/imported/deathscale_balance.gltf-1905c553147b160852533da101e58ac0.scn"
 
 [deps]
 
-source_file="res://prototypes/death_scale/assets/deathscale_balance.gltf"
-dest_files=["res://.godot/imported/deathscale_balance.gltf-97a087d24f928ef161f9cd0aac89b94d.scn"]
+source_file="res://prototypes/death_scale/assets/scale/balance/deathscale_balance.gltf"
+dest_files=["res://.godot/imported/deathscale_balance.gltf-1905c553147b160852533da101e58ac0.scn"]
 
 [params]
 

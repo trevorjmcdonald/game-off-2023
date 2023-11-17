@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xfti8oqyg2xp"
-path.s3tc="res://.godot/imported/deathscale_balance_1.png-e49a18e8ec6b6d12e9fac68291a96d9c.s3tc.ctex"
-path.etc2="res://.godot/imported/deathscale_balance_1.png-e49a18e8ec6b6d12e9fac68291a96d9c.etc2.ctex"
+uid="uid://dksp03y6tpnua"
+path.s3tc="res://.godot/imported/deathscale_buddy_6.png-973469a62f84f8e38c0ff486e6fe979e.s3tc.ctex"
+path.etc2="res://.godot/imported/deathscale_buddy_6.png-973469a62f84f8e38c0ff486e6fe979e.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -13,8 +13,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://prototypes/death_scale/assets/deathscale_balance_1.png"
-dest_files=["res://.godot/imported/deathscale_balance_1.png-e49a18e8ec6b6d12e9fac68291a96d9c.s3tc.ctex", "res://.godot/imported/deathscale_balance_1.png-e49a18e8ec6b6d12e9fac68291a96d9c.etc2.ctex"]
+source_file="res://prototypes/death_scale/assets/deathscale_buddy_6.png"
+dest_files=["res://.godot/imported/deathscale_buddy_6.png-973469a62f84f8e38c0ff486e6fe979e.s3tc.ctex", "res://.godot/imported/deathscale_buddy_6.png-973469a62f84f8e38c0ff486e6fe979e.etc2.ctex"]
 
 [params]
 
