@@ -3,8 +3,10 @@ class_name DeathScaleBuddy
 
 @export var blast_scene: PackedScene
 
+@onready var animation_tree := $AnimationTree
+
 var _movement := Vector3.ZERO
-var _is_jumping := false
+var _start_jump := false
 var _is_blasting := false
 var _blast_timer := 0.0
 var _moving_last_frame := false
@@ -13,11 +15,11 @@ func move(movement: Vector3) -> void:
 	_movement = movement
 
 func start_jump() -> void:
-	if is_on_floor() and not _is_jumping:
-		_is_jumping = true
+	if is_on_floor() and not _start_jump:
+		_start_jump = true
 
 func stop_jump() -> void:
-	_is_jumping = false
+	_start_jump = false
 
 func start_ability_1() -> void:
 	if _blast_timer <= 0.0:
@@ -42,21 +44,26 @@ func stop_ability_3() -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity.x = _movement.x * 5
-	if is_on_floor() and _is_jumping:
+	if is_on_floor() and _start_jump:
 		velocity.y = Vector3.UP.y * 10
-		_is_jumping = false
-		$AnimationPlayer.play("start_jump")
+		_start_jump = false
+		animation_tree["parameters/conditions/is_jumping"] = true
+		animation_tree["parameters/conditions/is_grounded"] = false
+	elif is_on_floor() and not _start_jump:
+		animation_tree["parameters/conditions/is_jumping"] = false
+		animation_tree["parameters/conditions/is_grounded"] = true
 	velocity += Vector3.DOWN * 20 * delta
 	move_and_slide()
 
-	#TODO: Time for a FSM to manage animations
 	if is_on_floor():
 		var moving := not is_zero_approx(velocity.x)
 
 		if not _moving_last_frame and moving:
-			$AnimationPlayer.play("walk")
+			animation_tree["parameters/conditions/is_moving"] = true
+			animation_tree["parameters/conditions/is_idle"] = false
 		elif _moving_last_frame and not moving:
-			$AnimationPlayer.play("RESET")
+			animation_tree["parameters/conditions/is_moving"] = false
+			animation_tree["parameters/conditions/is_idle"] = true
 
 		_moving_last_frame = moving
 

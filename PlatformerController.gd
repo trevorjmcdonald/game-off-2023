@@ -127,7 +127,7 @@ func _physics_process(delta: float) -> void:
 	_handle_jump(Time.get_ticks_msec())
 	_handle_movement(delta)
 
-	move_and_slide()
+	#move_and_slide()
 
-	#var translation := _calculate_translation(delta)
-	#move_and_collide(translation)
+	var translation := _calculate_translation(delta)
+	move_and_collide(translation)
