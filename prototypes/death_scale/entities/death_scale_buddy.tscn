@@ -681,9 +681,10 @@ axis_lock_linear_z = true
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 platform_on_leave = 2
-platform_floor_layers = 4294901763
+platform_floor_layers = 4294901761
 script = ExtResource("1_w66en")
 blast_scene = ExtResource("2_1ff85")
+jump_buffer_time = 0.2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

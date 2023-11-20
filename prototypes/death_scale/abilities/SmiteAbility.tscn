@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkumbs8hkrfa0"]
+
+[ext_resource type="Script" path="res://prototypes/death_scale/abilities/SmiteAbility.gd" id="1_njtju"]
+
+[node name="SmiteAbility" type="Node"]
+script = ExtResource("1_njtju")
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true

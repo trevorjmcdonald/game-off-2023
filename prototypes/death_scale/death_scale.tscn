@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://6mtrgvrgkax5"]
 
+[ext_resource type="Script" path="res://prototypes/death_scale/controllers/PlayerController.gd" id="1_fnmq5"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/ScaleManager.gd" id="1_illso"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/BlockSpawner.gd" id="2_hq5w7"]
-[ext_resource type="Script" path="res://prototypes/death_scale/player/PlayerController.gd" id="2_kdxlt"]
 [ext_resource type="PackedScene" uid="uid://cccwtfx16spwq" path="res://prototypes/death_scale/entities/block.tscn" id="3_ah0t0"]
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/AIController.gd" id="3_osvdr"]
 [ext_resource type="ArrayMesh" uid="uid://c2y14vh0aoxuo" path="res://prototypes/death_scale/assets/scale/scale_body.res" id="4_12guv"]
@@ -22,7 +22,7 @@ albedo_color = Color(0.141176, 0.152941, 0.156863, 1)
 [node name="DeathScale" type="Node3D"]
 
 [node name="Player1Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
-script = ExtResource("2_kdxlt")
+script = ExtResource("1_fnmq5")
 buddy = NodePath("../LeftDeathScaleBuddy")
 jump = &"player1_jump"
 move_left = &"player1_move_left"
@@ -32,7 +32,7 @@ ability_2 = &"player1_ability_2"
 ability_3 = &"player1_ability_3"
 
 [node name="Player2Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
-script = ExtResource("2_kdxlt")
+script = ExtResource("1_fnmq5")
 buddy = NodePath("../RightDeathScaleBuddy")
 jump = &"player2_jump"
 move_left = &"player2_move_left"

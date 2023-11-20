@@ -1,8 +1,9 @@
 extends CharacterBody3D
-class_name PlatformerController
+class_name PlatformerController3D
 
 
 signal jumped()
+signal falling()
 signal landed()
 
 
@@ -20,8 +21,8 @@ signal landed()
 
 var _movement := Vector3.ZERO
 var _gravity: float = 0
-var _jumpvelocity: float = 0
-var velocity_x_smoothing: float = 0
+var _jump_velocity: float = 0
+var _velocity_x_smoothing: float = 0
 var _jump_sent_at: float = -1
 var _left_ground_at: float = 0
 var _grounded_last_frame := false
@@ -33,8 +34,8 @@ var _is_jumping := false
 func move(movement: Vector3) -> void:
 	_movement = movement
 
-func start_jump(current_time: float) -> void:
-	_jump_sent_at = current_time
+func start_jump() -> void:
+	_jump_sent_at = Time.get_ticks_msec()
 
 func stop_jump() -> void:
 	_stop_jump = true
@@ -49,17 +50,26 @@ func stop_running() -> void:
 
 func _calculate_jump_params() -> void:
 	_gravity = -(2 * jump_height) / pow(time_to_jump_apex, 2)
-	_jumpvelocity = abs(_gravity) * time_to_jump_apex
+	_jump_velocity = abs(_gravity) * time_to_jump_apex
 
-func _handle_jump(current_time: float) -> void:
+func _handle_jump() -> void:
+	var current_time := Time.get_ticks_msec()
 	var grounded := is_on_floor()
-	var should_jump: bool = _jump_sent_at + jump_buffer_time > current_time
-	var can_jump: bool = _left_ground_at + coyote_time > current_time
+
+	if not _grounded_last_frame and grounded:
+		velocity.y = 0
+		emit_signal("landed")
+
+	var jump_valid_until := _jump_sent_at + jump_buffer_time * 1000
+	var should_jump: bool = jump_valid_until > current_time
+
+	var coyote_time_end := _left_ground_at + coyote_time * 1000
+	var can_jump: bool = grounded or coyote_time_end > current_time
 	can_jump = can_jump and not _is_jumping
 
 	if should_jump and can_jump:
 		_jump_sent_at = -1
-		velocity.y += _jumpvelocity
+		velocity.y += _jump_velocity
 		_is_jumping = true
 		emit_signal("jumped")
 	elif _stop_jump:
@@ -72,10 +82,7 @@ func _handle_jump(current_time: float) -> void:
 
 	if _is_jumping and velocity.y <= 0:
 		_is_jumping = false
-
-	if not _grounded_last_frame and grounded:
-		velocity.y = 0
-		emit_signal("landed")
+		emit_signal("falling")
 
 	_grounded_last_frame = grounded
 
@@ -83,7 +90,7 @@ func _handle_movement(delta: float) -> void:
 	var run_modifier: float = 1
 	if _is_running:
 		run_modifier = run_speed_modifier
-	var targetvelocity_x := _movement.x * ground_speed * run_modifier
+	var target_velocity_x := _movement.x * ground_speed * run_modifier
 	var smooth_time = acceleration_time_walking
 	if _is_running:
 		smooth_time = acceleration_time_running
@@ -91,12 +98,12 @@ func _handle_movement(delta: float) -> void:
 		smooth_time = acceleration_time_in_air
 	var smooth_damp := MathUtils.smooth_damp(
 		velocity.x,
-		targetvelocity_x,
-		velocity_x_smoothing,
+		target_velocity_x,
+		_velocity_x_smoothing,
 		smooth_time,
 		delta)
 	velocity.x = smooth_damp.output
-	velocity_x_smoothing = smooth_damp.velocity
+	_velocity_x_smoothing = smooth_damp.velocity
 
 
 # https://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet
@@ -110,24 +117,9 @@ func _calculate_translation(delta: float) -> Vector3:
 func _ready() -> void:
 	_calculate_jump_params()
 
-func _process(_delta: float) -> void:
-	var movement := Vector3.ZERO
-	if Input.is_action_pressed("move_left"):
-		movement += Vector3.LEFT
-	if Input.is_action_pressed("move_right"):
-		movement += Vector3.RIGHT
-	if Input.is_action_just_pressed("jump"):
-		start_jump(Time.get_ticks_msec())
-	elif Input.is_action_just_released("jump"):
-		stop_jump()
-
-	move(movement)
-
 func _physics_process(delta: float) -> void:
-	_handle_jump(Time.get_ticks_msec())
+	_handle_jump()
 	_handle_movement(delta)
 
-	#move_and_slide()
-
-	var translation := _calculate_translation(delta)
-	move_and_collide(translation)
+	_calculate_translation(delta)
+	move_and_slide()
