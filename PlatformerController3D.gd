@@ -5,6 +5,8 @@ class_name PlatformerController3D
 signal jumped()
 signal falling()
 signal landed()
+signal crouched()
+signal stood()
 
 
 @export var ground_speed: float = 12
@@ -29,10 +31,18 @@ var _grounded_last_frame := false
 var _stop_jump := false
 var _is_running := false
 var _is_jumping := false
+var _crouch_sent_at: float = -1
+var _is_crouching := false
 
 
 func move(movement: Vector3) -> void:
 	_movement = movement
+
+func start_crouch() -> void:
+	_crouch_sent_at = Time.get_ticks_msec()
+
+func stop_crouch() -> void:
+	_crouch_sent_at = -1.
 
 func start_jump() -> void:
 	_jump_sent_at = Time.get_ticks_msec()
@@ -52,7 +62,30 @@ func _calculate_jump_params() -> void:
 	_gravity = -(2 * jump_height) / pow(time_to_jump_apex, 2)
 	_jump_velocity = abs(_gravity) * time_to_jump_apex
 
+func _handle_crouch() -> void:
+	if _is_jumping:
+		pass
+
+	var current_time := Time.get_ticks_msec()
+	var grounded := is_on_floor()
+
+	if not grounded:
+		return
+
+	var crouch_valid_until := _crouch_sent_at + jump_buffer_time * 1000
+	var should_crouch: bool = crouch_valid_until > current_time
+
+	if should_crouch and not _is_crouching:
+		_is_crouching = true
+		emit_signal("crouched")
+	elif _is_crouching and _crouch_sent_at < 0.:
+		_is_crouching = false
+		emit_signal("stood")
+
 func _handle_jump() -> void:
+	if _is_crouching:
+		return
+
 	var current_time := Time.get_ticks_msec()
 	var grounded := is_on_floor()
 
@@ -90,7 +123,11 @@ func _handle_movement(delta: float) -> void:
 	var run_modifier: float = 1
 	if _is_running:
 		run_modifier = run_speed_modifier
-	var target_velocity_x := _movement.x * ground_speed * run_modifier
+	var target_velocity_x := 0.
+
+	if not _is_crouching:
+		target_velocity_x = _movement.x * ground_speed * run_modifier
+
 	var smooth_time = acceleration_time_walking
 	if _is_running:
 		smooth_time = acceleration_time_running
@@ -118,6 +155,7 @@ func _ready() -> void:
 	_calculate_jump_params()
 
 func _physics_process(delta: float) -> void:
+	_handle_crouch()
 	_handle_jump()
 	_handle_movement(delta)
 

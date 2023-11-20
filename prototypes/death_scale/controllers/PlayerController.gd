@@ -2,6 +2,7 @@ extends Node
 
 @export var buddy: DeathScaleBuddy
 @export var jump: StringName
+@export var crouch: StringName
 @export var move_left: StringName
 @export var move_right: StringName
 @export var ability_1: StringName
@@ -21,12 +22,16 @@ func _process(_delta: float) -> void:
 		var movement := Vector3.ZERO
 		movement.x = Input.get_axis(move_left, move_right)
 		buddy.move(movement)
-
 	if jump:
 		if Input.is_action_just_pressed(jump):
 			buddy.start_jump()
 		elif Input.is_action_just_released(jump):
 			buddy.stop_jump()
+	if crouch:
+		if Input.is_action_just_pressed(crouch):
+			buddy.start_crouch()
+		elif Input.is_action_just_released(crouch):
+			buddy.stop_crouch()
 	if ability_1:
 		if Input.is_action_just_pressed(ability_1):
 			buddy.start_ability_1()

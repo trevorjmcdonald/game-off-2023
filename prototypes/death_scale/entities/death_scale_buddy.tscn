@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://f754ydhv3faj"]
+[gd_scene load_steps=25 format=3 uid="uid://f754ydhv3faj"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="1_w66en"]
 [ext_resource type="PackedScene" uid="uid://bkumbs8hkrfa0" path="res://prototypes/death_scale/abilities/SmiteAbility.tscn" id="3_d5te2"]
@@ -221,6 +221,142 @@ tracks/17/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("SmiteAbility:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.225, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oicfq"]
+resource_name = "crouch"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("deathscale_buddy/Node2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -0.125, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("deathscale_buddy/Node2/lower_torso/left_thigh:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("deathscale_buddy/Node2/lower_torso/left_thigh/left_knee:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.174533)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("deathscale_buddy/Node2/lower_torso/left_thigh/left_knee/left_ankle:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.174533)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("deathscale_buddy/Node2/lower_torso/right_thigh:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("deathscale_buddy/Node2/lower_torso/right_thigh/right_knee:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.174533)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("deathscale_buddy/Node2/lower_torso/right_thigh/right_knee/right_ankle:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.174533)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("deathscale_buddy/Node2/upper_torso/left_shoulder/left_elbow:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -2.0944)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("deathscale_buddy/Node2/upper_torso/right_shoulder/right_elbow:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 2.0944)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("SmiteAbility:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.1, 0.225, 0), Vector3(0.173082, 0.127206, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_w4qin"]
@@ -621,6 +757,7 @@ tracks/15/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kwus8"]
 _data = {
 "RESET": SubResource("Animation_tajns"),
+"crouch": SubResource("Animation_oicfq"),
 "start_jump": SubResource("Animation_w4qin"),
 "walk": SubResource("Animation_i4yfh")
 }
@@ -628,14 +765,14 @@ _data = {
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_allsn"]
 animation = &"RESET"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_exn2w"]
+animation = &"crouch"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nftmc"]
 animation = &"start_jump"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3155m"]
 animation = &"walk"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w2n4p"]
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xmnln"]
 advance_mode = 2
@@ -661,15 +798,34 @@ advance_condition = &"is_jumping"
 advance_mode = 2
 advance_condition = &"is_grounded"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_01s23"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x4wyt"]
+advance_mode = 2
+advance_condition = &"is_crouched"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_aiilc"]
+xfade_time = 0.1
+advance_mode = 2
+advance_condition = &"is_standing"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ba3d3"]
+advance_mode = 2
+advance_condition = &"is_crouched"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ghmuf"]
 states/RESET/node = SubResource("AnimationNodeAnimation_allsn")
 states/RESET/position = Vector2(313, 205)
 states/Start/position = Vector2(179, 91)
+states/crouch/node = SubResource("AnimationNodeAnimation_exn2w")
+states/crouch/position = Vector2(459, 308)
 states/start_jump/node = SubResource("AnimationNodeAnimation_nftmc")
 states/start_jump/position = Vector2(459, 44)
 states/walk/node = SubResource("AnimationNodeAnimation_3155m")
 states/walk/position = Vector2(605, 205)
-transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransition_w2n4p"), "RESET", "start_jump", SubResource("AnimationNodeStateMachineTransition_xmnln"), "start_jump", "RESET", SubResource("AnimationNodeStateMachineTransition_m82wq"), "RESET", "walk", SubResource("AnimationNodeStateMachineTransition_fpdcc"), "walk", "RESET", SubResource("AnimationNodeStateMachineTransition_2dnfo"), "walk", "start_jump", SubResource("AnimationNodeStateMachineTransition_y73yg"), "start_jump", "walk", SubResource("AnimationNodeStateMachineTransition_fvq1j")]
+transitions = ["RESET", "start_jump", SubResource("AnimationNodeStateMachineTransition_xmnln"), "start_jump", "RESET", SubResource("AnimationNodeStateMachineTransition_m82wq"), "RESET", "walk", SubResource("AnimationNodeStateMachineTransition_fpdcc"), "walk", "RESET", SubResource("AnimationNodeStateMachineTransition_2dnfo"), "walk", "start_jump", SubResource("AnimationNodeStateMachineTransition_y73yg"), "start_jump", "walk", SubResource("AnimationNodeStateMachineTransition_fvq1j"), "Start", "RESET", SubResource("AnimationNodeStateMachineTransition_01s23"), "RESET", "crouch", SubResource("AnimationNodeStateMachineTransition_x4wyt"), "crouch", "RESET", SubResource("AnimationNodeStateMachineTransition_aiilc"), "walk", "crouch", SubResource("AnimationNodeStateMachineTransition_ba3d3")]
+graph_offset = Vector2(-78, 145)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5567"]
 radius = 0.0550043
@@ -695,10 +851,12 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_ghmuf")
 anim_player = NodePath("../AnimationPlayer")
 active = true
+parameters/conditions/is_crouched = false
 parameters/conditions/is_grounded = false
 parameters/conditions/is_idle = true
 parameters/conditions/is_jumping = false
 parameters/conditions/is_moving = false
+parameters/conditions/is_standing = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.205, 0)
@@ -714,10 +872,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, -0.065625, 0)
 transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01875, -0.2, 0)
 
 [node name="SmiteAbility" parent="." node_paths=PackedStringArray("buddy") instance=ExtResource("3_d5te2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.225, 0)
 buddy = NodePath("..")
-
-[node name="ProjectileOrigin" parent="SmiteAbility" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.164486, 0.235306, 0)
 
 [editable path="deathscale_buddy"]
 [editable path="SmiteAbility"]

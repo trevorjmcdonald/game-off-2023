@@ -7,8 +7,6 @@
 script = ExtResource("1_njtju")
 projectile_scene = ExtResource("2_8o51n")
 
-[node name="ProjectileOrigin" type="Node3D" parent="."]
-
 [node name="Cooldown" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true

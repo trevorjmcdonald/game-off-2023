@@ -29,6 +29,7 @@ background_mode = 1
 script = ExtResource("1_fnmq5")
 buddy = NodePath("../LeftDeathScaleBuddy")
 jump = &"player1_jump"
+crouch = &"player1_crouch"
 move_left = &"player1_move_left"
 move_right = &"player1_move_right"
 ability_1 = &"player1_ability_1"
@@ -39,6 +40,7 @@ ability_3 = &"player1_ability_3"
 script = ExtResource("1_fnmq5")
 buddy = NodePath("../RightDeathScaleBuddy")
 jump = &"player2_jump"
+crouch = &"player2_crouch"
 move_left = &"player2_move_left"
 move_right = &"player2_move_right"
 ability_1 = &"player2_ability_1"
@@ -89,7 +91,7 @@ transform = Transform3D(-12.4002, 0, -10.1112, 0, 16, 0, 10.1112, 0, -12.4002, 0
 mesh = ExtResource("5_x3jlj")
 
 [node name="ScaleArm" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 
 [node name="Arm_Right" type="MeshInstance3D" parent="ScaleArm"]
 transform = Transform3D(-5.82675e-07, 19.2, -2.33361e-06, 15.4548, 1.40017e-06, 4.14111, 4.14111, -2.52395e-06, -15.4548, 0.065, 0, 0)
@@ -102,7 +104,16 @@ gi_mode = 0
 mesh = ExtResource("7_th420")
 
 [node name="ChainConnector1" type="Node3D" parent="ScaleArm/ArmTip_Right"]
-transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55783e-09, -8.21597e-09, -9.11568e-09, 0.0161762, -0.0603704, -0.00500005, -0.324562, -0.065)
+transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55783e-09, -8.21597e-09, -9.11568e-09, 0.0161762, -0.0603704, -0.017, -0.325, 0)
+
+[node name="BlockSpawner" type="Node3D" parent="ScaleArm/ArmTip_Right/ChainConnector1"]
+transform = Transform3D(1, 1.45852e-08, -2.62914e-08, -1.45852e-08, 1, 6.70552e-07, 2.62914e-08, -6.70552e-07, 1, 0, 0, 0)
+script = ExtResource("2_hq5w7")
+block_scene = ExtResource("3_ah0t0")
+action = &"move_left"
+
+[node name="Timer" type="Timer" parent="ScaleArm/ArmTip_Right/ChainConnector1/BlockSpawner"]
+wait_time = 0.5
 
 [node name="Pivot" type="MeshInstance3D" parent="ScaleArm"]
 transform = Transform3D(16, -6.0633e-14, -2.65035e-21, 0, -6.99382e-07, 16, -6.0633e-14, -16, -6.99382e-07, 0, 0, 0)
@@ -120,24 +131,15 @@ gi_mode = 0
 mesh = ExtResource("10_fs1qp")
 
 [node name="ChainConnector2" type="Node3D" parent="ScaleArm/ArmTip_Left"]
-transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83557e-09, 6.8018e-09, -9.11568e-09, 0.0161762, -0.0603704, 0.00465405, -0.324521, -0.0675868)
+transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83557e-09, 6.8018e-09, -9.11568e-09, 0.0161762, -0.0603704, 0.005, -0.325, 0)
 
-[node name="BlockSpawner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)
-script = ExtResource("2_hq5w7")
-block_scene = ExtResource("3_ah0t0")
-action = &"move_left"
-
-[node name="Timer" type="Timer" parent="BlockSpawner"]
-wait_time = 0.5
-
-[node name="BlockSpawner2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0858, 5, 0)
+[node name="BlockSpawner2" type="Node3D" parent="ScaleArm/ArmTip_Left/ChainConnector2"]
+transform = Transform3D(1, 3.14738e-08, -2.17656e-08, -3.14738e-08, 1, 5.51343e-07, 2.17656e-08, -5.51343e-07, 1, 0, 0, 0)
 script = ExtResource("2_hq5w7")
 block_scene = ExtResource("3_ah0t0")
 action = &"move_right"
 
-[node name="Timer" type="Timer" parent="BlockSpawner2"]
+[node name="Timer" type="Timer" parent="ScaleArm/ArmTip_Left/ChainConnector2/BlockSpawner2"]
 wait_time = 0.5
 
 [node name="LeftBalance" parent="." instance=ExtResource("7_k35y8")]

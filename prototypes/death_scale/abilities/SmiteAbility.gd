@@ -3,7 +3,6 @@ extends BuddyAbility
 @export var projectile_scene: PackedScene
 
 @onready var cooldown: Timer = $Cooldown
-@onready var projectile_origin: Node3D = $ProjectileOrigin
 
 var _firing := false
 var _ready_to_fire := true
@@ -26,9 +25,9 @@ func _process(_delta: float) -> void:
 		cooldown.start()
 		var projectile: SmiteProjectile = projectile_scene.instantiate()
 		get_tree().root.add_child(projectile)
-		projectile.global_position = projectile_origin.global_position
+		projectile.global_position = global_position
 		var direction := Vector3.RIGHT
-		if (projectile_origin.global_position - buddy.global_position).x < 0.:
+		if (global_position - buddy.global_position).x < 0.:
 			direction = Vector3.LEFT
 		projectile.set_velocity(direction * 5)
 

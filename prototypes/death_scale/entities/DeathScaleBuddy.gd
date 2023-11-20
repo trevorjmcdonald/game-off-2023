@@ -36,6 +36,8 @@ func _ready() -> void:
 	jumped.connect(_on_jumped)
 	landed.connect(_on_landed)
 	falling.connect(_on_falling)
+	crouched.connect(_on_crouched)
+	stood.connect(_on_stood)
 
 func _process(_delta: float) -> void:
 	_set_facing()
@@ -64,3 +66,13 @@ func _on_landed() -> void:
 func _on_falling() -> void:
 	# some kind of falling animation maybe?
 	pass
+
+func _on_crouched() -> void:
+	animation_tree["parameters/conditions/is_crouched"] = true
+	animation_tree["parameters/conditions/is_standing"] = false
+	animation_tree["parameters/conditions/is_jumping"] = false
+	animation_tree["parameters/conditions/is_grounded"] = true
+
+func _on_stood() -> void:
+	animation_tree["parameters/conditions/is_crouched"] = false
+	animation_tree["parameters/conditions/is_standing"] = true
