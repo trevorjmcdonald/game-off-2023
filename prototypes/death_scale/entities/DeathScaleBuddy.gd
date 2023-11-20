@@ -1,33 +1,35 @@
 extends PlatformerController3D
 class_name DeathScaleBuddy
 
-@export var blast_scene: PackedScene
+@export var ability_1: BuddyAbility
+@export var ability_2: BuddyAbility
+@export var ability_3: BuddyAbility
 
 @onready var animation_tree := $AnimationTree
 
-var _is_blasting := false
-var _blast_timer := 0.0
-
 func start_ability_1() -> void:
-	if _blast_timer <= 0.0:
-		_is_blasting = true
+	if ability_1:
+		ability_1.start_ability()
 
 func stop_ability_1() -> void:
-	_is_blasting = false
+	if ability_1:
+		ability_1.stop_ability()
 
 func start_ability_2() -> void:
-	if _blast_timer <= 0.0:
-		_is_blasting = true
+	if ability_2:
+		ability_2.start_ability()
 
 func stop_ability_2() -> void:
-	_is_blasting = false
+	if ability_2:
+		ability_2.stop_ability()
 
 func start_ability_3() -> void:
-	if _blast_timer <= 0.0:
-		_is_blasting = true
+	if ability_3:
+		ability_3.start_ability()
 
 func stop_ability_3() -> void:
-	_is_blasting = false
+	if ability_3:
+		ability_3.stop_ability()
 
 func _ready() -> void:
 	_calculate_jump_params() # since we can't call the base _ready

@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkumbs8hkrfa0"]
+[gd_scene load_steps=3 format=3 uid="uid://bkumbs8hkrfa0"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/abilities/SmiteAbility.gd" id="1_njtju"]
+[ext_resource type="PackedScene" uid="uid://c0mph8xixnhgp" path="res://prototypes/death_scale/abilities/smite_projectile.tscn" id="2_8o51n"]
 
-[node name="SmiteAbility" type="Node"]
+[node name="SmiteAbility" type="Node3D"]
 script = ExtResource("1_njtju")
+projectile_scene = ExtResource("2_8o51n")
+
+[node name="ProjectileOrigin" type="Node3D" parent="."]
 
 [node name="Cooldown" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.5
 one_shot = true

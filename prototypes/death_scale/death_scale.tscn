@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://6mtrgvrgkax5"]
+[gd_scene load_steps=19 format=3 uid="uid://6mtrgvrgkax5"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/PlayerController.gd" id="1_fnmq5"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/ScaleManager.gd" id="1_illso"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cccwtfx16spwq" path="res://prototypes/death_scale/entities/block.tscn" id="3_ah0t0"]
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/AIController.gd" id="3_osvdr"]
 [ext_resource type="ArrayMesh" uid="uid://c2y14vh0aoxuo" path="res://prototypes/death_scale/assets/scale/scale_body.res" id="4_12guv"]
+[ext_resource type="Texture2D" uid="uid://xaeo5mfl73v7" path="res://prototypes/death_scale/assets/anubis.jpg" id="4_20pis"]
 [ext_resource type="ArrayMesh" uid="uid://c5sa3m3xgronb" path="res://prototypes/death_scale/assets/scale/scale_body_top.res" id="5_x3jlj"]
 [ext_resource type="ArrayMesh" uid="uid://dn2iv4vvpv1sc" path="res://prototypes/death_scale/assets/scale/scale_arm_1.res" id="6_12lhf"]
 [ext_resource type="PackedScene" uid="uid://cimbkscpmsjrm" path="res://prototypes/death_scale/environment/balance.tscn" id="7_k35y8"]
@@ -18,6 +19,9 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ij76v"]
 albedo_color = Color(0.141176, 0.152941, 0.156863, 1)
+
+[sub_resource type="Environment" id="Environment_xyiff"]
+background_mode = 1
 
 [node name="DeathScale" type="Node3D"]
 
@@ -55,6 +59,14 @@ left_balance = NodePath("../LeftBalance")
 right_balance = NodePath("../RightBalance")
 chain_mat = SubResource("StandardMaterial3D_ij76v")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xyiff")
+
+[node name="Background" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, 2, -3.07655)
+modulate = Color(0.321569, 0.321569, 0.321569, 1)
+texture = ExtResource("4_20pis")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 12, 15)
 
@@ -77,7 +89,7 @@ transform = Transform3D(-12.4002, 0, -10.1112, 0, 16, 0, 10.1112, 0, -12.4002, 0
 mesh = ExtResource("5_x3jlj")
 
 [node name="ScaleArm" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, -1)
 
 [node name="Arm_Right" type="MeshInstance3D" parent="ScaleArm"]
 transform = Transform3D(-5.82675e-07, 19.2, -2.33361e-06, 15.4548, 1.40017e-06, 4.14111, 4.14111, -2.52395e-06, -15.4548, 0.065, 0, 0)
@@ -90,7 +102,7 @@ gi_mode = 0
 mesh = ExtResource("7_th420")
 
 [node name="ChainConnector1" type="Node3D" parent="ScaleArm/ArmTip_Right"]
-transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55784e-09, -8.21597e-09, -9.11568e-09, 0.0161762, -0.0603704, 0, -0.325, 4.47035e-08)
+transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55783e-09, -8.21597e-09, -9.11568e-09, 0.0161762, -0.0603704, -0.00500005, -0.324562, -0.065)
 
 [node name="Pivot" type="MeshInstance3D" parent="ScaleArm"]
 transform = Transform3D(16, -6.0633e-14, -2.65035e-21, 0, -6.99382e-07, 16, -6.0633e-14, -16, -6.99382e-07, 0, 0, 0)
@@ -108,7 +120,7 @@ gi_mode = 0
 mesh = ExtResource("10_fs1qp")
 
 [node name="ChainConnector2" type="Node3D" parent="ScaleArm/ArmTip_Left"]
-transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83558e-09, 6.8018e-09, -9.11568e-09, 0.0161762, -0.0603704, 2.98023e-08, -0.321985, -4.47035e-08)
+transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83557e-09, 6.8018e-09, -9.11568e-09, 0.0161762, -0.0603704, 0.00465405, -0.324521, -0.0675868)
 
 [node name="BlockSpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 5, 0)

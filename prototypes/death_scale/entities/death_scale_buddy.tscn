@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://f754ydhv3faj"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="1_w66en"]
-[ext_resource type="PackedScene" uid="uid://ccrmrq78hkpxo" path="res://prototypes/death_scale/abilities/blast.tscn" id="2_1ff85"]
+[ext_resource type="PackedScene" uid="uid://bkumbs8hkrfa0" path="res://prototypes/death_scale/abilities/SmiteAbility.tscn" id="3_d5te2"]
 [ext_resource type="PackedScene" uid="uid://2jg66aetcven" path="res://prototypes/death_scale/assets/buddy/deathscale_buddy.gltf" id="3_umt73"]
 
 [sub_resource type="Animation" id="Animation_tajns"]
@@ -675,7 +675,7 @@ transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransitio
 radius = 0.0550043
 height = 0.405717
 
-[node name="DeathScaleBuddy" type="CharacterBody3D"]
+[node name="DeathScaleBuddy" type="CharacterBody3D" node_paths=PackedStringArray("ability_1")]
 collision_layer = 4
 axis_lock_linear_z = true
 axis_lock_angular_x = true
@@ -683,7 +683,7 @@ axis_lock_angular_y = true
 platform_on_leave = 2
 platform_floor_layers = 4294901761
 script = ExtResource("1_w66en")
-blast_scene = ExtResource("2_1ff85")
+ability_1 = NodePath("SmiteAbility")
 jump_buffer_time = 0.2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -713,4 +713,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, -0.065625, 0)
 [node name="lower_body" parent="deathscale_buddy/Node2/lower_torso" index="0"]
 transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01875, -0.2, 0)
 
+[node name="SmiteAbility" parent="." node_paths=PackedStringArray("buddy") instance=ExtResource("3_d5te2")]
+buddy = NodePath("..")
+
+[node name="ProjectileOrigin" parent="SmiteAbility" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.164486, 0.235306, 0)
+
 [editable path="deathscale_buddy"]
+[editable path="SmiteAbility"]
