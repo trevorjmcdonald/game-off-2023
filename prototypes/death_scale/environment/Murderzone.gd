@@ -7,5 +7,4 @@ func _on_body_entered(body: Node3D) -> void:
 	if body is RigidBody3D:
 		body.queue_free()
 	elif body is DeathScaleBuddy:
-		print(body, " is dead")
-		body.queue_free()
+		body.return_to_spawn()

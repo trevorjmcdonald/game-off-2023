@@ -21,6 +21,9 @@ signal stood()
 @export var stop_jump_rate: float = 0.5
 
 
+var _paused := false
+var _time_scale := 1.
+
 var _movement := Vector3.ZERO
 var _gravity: float = 0
 var _jump_velocity: float = 0
@@ -34,6 +37,24 @@ var _is_jumping := false
 var _crouch_sent_at: float = -1
 var _is_crouching := false
 
+
+func pause() -> void:
+	_paused = true
+
+func unpause() -> void:
+	_paused = false
+
+func is_paused() -> bool:
+	return _paused
+
+func set_timescale(time_scale: float) -> void:
+	_time_scale = time_scale
+
+func reset_timescale() -> void:
+	set_timescale(1.)
+
+func get_timescale() -> float:
+	return _time_scale
 
 func move(movement: Vector3) -> void:
 	_movement = movement
@@ -155,6 +176,11 @@ func _ready() -> void:
 	_calculate_jump_params()
 
 func _physics_process(delta: float) -> void:
+	if _paused:
+		return
+
+	delta *= _time_scale
+
 	_handle_crouch()
 	_handle_jump()
 	_handle_movement(delta)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://6mtrgvrgkax5"]
+[gd_scene load_steps=23 format=3 uid="uid://6mtrgvrgkax5"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/PlayerController.gd" id="1_fnmq5"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/ScaleManager.gd" id="1_illso"]
+[ext_resource type="Script" path="res://prototypes/death_scale/controllers/GameStateController.gd" id="1_myt8s"]
 [ext_resource type="Script" path="res://prototypes/death_scale/environment/BlockSpawner.gd" id="2_hq5w7"]
 [ext_resource type="PackedScene" uid="uid://cccwtfx16spwq" path="res://prototypes/death_scale/entities/block.tscn" id="3_ah0t0"]
 [ext_resource type="Script" path="res://prototypes/death_scale/controllers/AIController.gd" id="3_osvdr"]
@@ -16,6 +17,7 @@
 [ext_resource type="ArrayMesh" uid="uid://lrqpqbatrgxq" path="res://prototypes/death_scale/assets/scale/scale_arm_2.res" id="9_dvbh3"]
 [ext_resource type="ArrayMesh" uid="uid://bb8o0c2trmvo4" path="res://prototypes/death_scale/assets/scale/scale_arm_2_tip.res" id="10_fs1qp"]
 [ext_resource type="PackedScene" uid="uid://ddoeujgkmdctp" path="res://prototypes/death_scale/environment/murderzone.tscn" id="10_s4c2n"]
+[ext_resource type="PackedScene" uid="uid://j3sbfwik76dm" path="res://prototypes/death_scale/entities/ammit.tscn" id="17_nn1g3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ij76v"]
 albedo_color = Color(0.141176, 0.152941, 0.156863, 1)
@@ -23,7 +25,23 @@ albedo_color = Color(0.141176, 0.152941, 0.156863, 1)
 [sub_resource type="Environment" id="Environment_xyiff"]
 background_mode = 1
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hvgp6"]
+size = Vector3(20, 4, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mw3on"]
+size = Vector3(20, 4, 10)
+
 [node name="DeathScale" type="Node3D"]
+
+[node name="GameStateController" type="Node" parent="." node_paths=PackedStringArray("left_balance", "right_balance", "left_buddy", "right_buddy", "ammit", "danger_zone", "chomp_zone")]
+script = ExtResource("1_myt8s")
+left_balance = NodePath("../LeftBalance")
+right_balance = NodePath("../RightBalance")
+left_buddy = NodePath("../LeftDeathScaleBuddy")
+right_buddy = NodePath("../RightDeathScaleBuddy")
+ammit = NodePath("../Ammit")
+danger_zone = NodePath("../DangerZone")
+chomp_zone = NodePath("../ChompZone")
 
 [node name="Player1Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("1_fnmq5")
@@ -145,14 +163,49 @@ wait_time = 0.5
 [node name="LeftBalance" parent="." instance=ExtResource("7_k35y8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.17459, 1.21534, 0)
 
+[node name="LeftBuddySpawn" type="Node3D" parent="LeftBalance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0332518, 0.821165, 0)
+
 [node name="RightBalance" parent="." instance=ExtResource("7_k35y8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.07936, 1.21534, 0)
 
-[node name="LeftDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -6.19744, 1.345, 0)
+[node name="RightBuddySpawn" type="Node3D" parent="RightBalance"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0653052, 0.789345, 0)
 
-[node name="RightDeathScaleBuddy" parent="." instance=ExtResource("8_6qtoa")]
+[node name="LeftDeathScaleBuddy" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("8_6qtoa")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -6.19744, 1.345, 0)
+spawn_point = NodePath("../LeftBalance/LeftBuddySpawn")
+
+[node name="RightDeathScaleBuddy" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("8_6qtoa")]
 transform = Transform3D(-4, -3.49691e-07, 5.28019e-14, -3.49691e-07, 4, -6.03983e-07, 0, -6.03983e-07, -4, 6.08662, 1.36674, 0)
+spawn_point = NodePath("../RightBalance/RightBuddySpawn")
+
+[node name="DangerZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.72268, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DangerZone"]
+shape = SubResource("BoxShape3D_hvgp6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DangerZone"]
+visible = false
+mesh = SubResource("BoxMesh_mw3on")
+
+[node name="ChompZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.36331, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChompZone"]
+shape = SubResource("BoxShape3D_hvgp6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ChompZone"]
+visible = false
+mesh = SubResource("BoxMesh_mw3on")
+
+[node name="Ammit" parent="." instance=ExtResource("17_nn1g3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.40755, 0)
 
 [node name="Bottom Murderzone" parent="." instance=ExtResource("10_s4c2n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, 0)

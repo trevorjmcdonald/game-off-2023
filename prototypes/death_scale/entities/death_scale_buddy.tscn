@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://f754ydhv3faj"]
+[gd_scene load_steps=33 format=3 uid="uid://f754ydhv3faj"]
 
 [ext_resource type="Script" path="res://prototypes/death_scale/entities/DeathScaleBuddy.gd" id="1_w66en"]
 [ext_resource type="PackedScene" uid="uid://bkumbs8hkrfa0" path="res://prototypes/death_scale/abilities/SmiteAbility.tscn" id="3_d5te2"]
@@ -233,6 +233,42 @@ tracks/18/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.1, 0.225, 0)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("deathscale_buddy:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("SpiritForm:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("SpiritForm:scale")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_oicfq"]
@@ -754,10 +790,53 @@ tracks/15/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, 0, -0.523599)]
 }
 
+[sub_resource type="Animation" id="Animation_ae764"]
+resource_name = "spirit_form"
+length = 0.5
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("deathscale_buddy:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpiritForm:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpiritForm:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.75, 0.75, 0.75), Vector3(1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kwus8"]
 _data = {
 "RESET": SubResource("Animation_tajns"),
 "crouch": SubResource("Animation_oicfq"),
+"spirit_form": SubResource("Animation_ae764"),
 "start_jump": SubResource("Animation_w4qin"),
 "walk": SubResource("Animation_i4yfh")
 }
@@ -767,6 +846,9 @@ animation = &"RESET"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_exn2w"]
 animation = &"crouch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjtgq"]
+animation = &"spirit_form"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nftmc"]
 animation = &"start_jump"
@@ -814,22 +896,50 @@ advance_condition = &"is_standing"
 advance_mode = 2
 advance_condition = &"is_crouched"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4darj"]
+advance_mode = 2
+advance_condition = &"in_spirit_form"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m3u5c"]
+advance_mode = 2
+advance_condition = &"in_mortal_form"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ghmuf"]
 states/RESET/node = SubResource("AnimationNodeAnimation_allsn")
 states/RESET/position = Vector2(313, 205)
 states/Start/position = Vector2(179, 91)
 states/crouch/node = SubResource("AnimationNodeAnimation_exn2w")
 states/crouch/position = Vector2(459, 308)
+states/spirit_form/node = SubResource("AnimationNodeAnimation_vjtgq")
+states/spirit_form/position = Vector2(313, 308)
 states/start_jump/node = SubResource("AnimationNodeAnimation_nftmc")
 states/start_jump/position = Vector2(459, 44)
 states/walk/node = SubResource("AnimationNodeAnimation_3155m")
 states/walk/position = Vector2(605, 205)
-transitions = ["RESET", "start_jump", SubResource("AnimationNodeStateMachineTransition_xmnln"), "start_jump", "RESET", SubResource("AnimationNodeStateMachineTransition_m82wq"), "RESET", "walk", SubResource("AnimationNodeStateMachineTransition_fpdcc"), "walk", "RESET", SubResource("AnimationNodeStateMachineTransition_2dnfo"), "walk", "start_jump", SubResource("AnimationNodeStateMachineTransition_y73yg"), "start_jump", "walk", SubResource("AnimationNodeStateMachineTransition_fvq1j"), "Start", "RESET", SubResource("AnimationNodeStateMachineTransition_01s23"), "RESET", "crouch", SubResource("AnimationNodeStateMachineTransition_x4wyt"), "crouch", "RESET", SubResource("AnimationNodeStateMachineTransition_aiilc"), "walk", "crouch", SubResource("AnimationNodeStateMachineTransition_ba3d3")]
+transitions = ["RESET", "start_jump", SubResource("AnimationNodeStateMachineTransition_xmnln"), "start_jump", "RESET", SubResource("AnimationNodeStateMachineTransition_m82wq"), "RESET", "walk", SubResource("AnimationNodeStateMachineTransition_fpdcc"), "walk", "RESET", SubResource("AnimationNodeStateMachineTransition_2dnfo"), "walk", "start_jump", SubResource("AnimationNodeStateMachineTransition_y73yg"), "start_jump", "walk", SubResource("AnimationNodeStateMachineTransition_fvq1j"), "Start", "RESET", SubResource("AnimationNodeStateMachineTransition_01s23"), "RESET", "crouch", SubResource("AnimationNodeStateMachineTransition_x4wyt"), "crouch", "RESET", SubResource("AnimationNodeStateMachineTransition_aiilc"), "walk", "crouch", SubResource("AnimationNodeStateMachineTransition_ba3d3"), "RESET", "spirit_form", SubResource("AnimationNodeStateMachineTransition_4darj"), "spirit_form", "RESET", SubResource("AnimationNodeStateMachineTransition_m3u5c")]
 graph_offset = Vector2(-78, 145)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e5567"]
 radius = 0.0550043
 height = 0.405717
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ryev1"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.203922, 1, 1, 0.403922)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ae1sn"]
+material = SubResource("StandardMaterial3D_ryev1")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6nx6k"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_iuwe1"]
+material = SubResource("StandardMaterial3D_6nx6k")
+radius = 0.04
+height = 0.08
 
 [node name="DeathScaleBuddy" type="CharacterBody3D" node_paths=PackedStringArray("ability_1")]
 collision_layer = 4
@@ -851,6 +961,8 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_ghmuf")
 anim_player = NodePath("../AnimationPlayer")
 active = true
+parameters/conditions/in_mortal_form = true
+parameters/conditions/in_spirit_form = false
 parameters/conditions/is_crouched = false
 parameters/conditions/is_grounded = false
 parameters/conditions/is_idle = true
@@ -874,6 +986,14 @@ transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01875, -0.2, 0)
 [node name="SmiteAbility" parent="." node_paths=PackedStringArray("buddy") instance=ExtResource("3_d5te2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.225, 0)
 buddy = NodePath("..")
+
+[node name="SpiritForm" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.202209, 0)
+visible = false
+mesh = SubResource("SphereMesh_ae1sn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpiritForm"]
+mesh = SubResource("SphereMesh_iuwe1")
 
 [editable path="deathscale_buddy"]
 [editable path="SmiteAbility"]
