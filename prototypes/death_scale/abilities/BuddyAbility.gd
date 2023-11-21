@@ -4,6 +4,13 @@ class_name BuddyAbility
 
 @export var buddy: DeathScaleBuddy
 
+var _paused := false
+
+func pause() -> void:
+	_paused = true
+
+func unpause() -> void:
+	_paused = false
 
 func start_ability() -> void:
 	pass

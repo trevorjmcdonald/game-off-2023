@@ -7,6 +7,14 @@ extends BuddyAbility
 var _firing := false
 var _ready_to_fire := true
 
+func pause() -> void:
+	_paused = true
+	cooldown.paused = true
+
+func unpause() -> void:
+	_paused = false
+	cooldown.paused = false
+
 func start_ability() -> void:
 	_firing = true
 
@@ -17,6 +25,9 @@ func _ready() -> void:
 	cooldown.timeout.connect(_on_cooldown_timeout)
 
 func _process(_delta: float) -> void:
+	if _paused:
+		return
+
 	if not _ready_to_fire:
 		return
 

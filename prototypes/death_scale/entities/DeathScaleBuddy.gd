@@ -13,6 +13,24 @@ signal consumed()
 
 var _in_spirit_form := false
 
+func pause() -> void:
+	_paused = true
+	if ability_1:
+		ability_1.pause()
+	if ability_2:
+		ability_2.pause()
+	if ability_3:
+		ability_3.pause()
+
+func unpause() -> void:
+	_paused = false
+	if ability_1:
+		ability_1.unpause()
+	if ability_2:
+		ability_2.unpause()
+	if ability_3:
+		ability_3.unpause()
+
 func start_ability_1() -> void:
 	if ability_1:
 		ability_1.start_ability()
@@ -78,6 +96,9 @@ func _ready() -> void:
 	stood.connect(_on_stood)
 
 func _process(_delta: float) -> void:
+	if _paused:
+		return
+
 	if _in_spirit_form:
 		return
 

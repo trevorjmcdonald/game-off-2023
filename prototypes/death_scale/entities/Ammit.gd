@@ -10,11 +10,9 @@ var _is_risen := false
 func rise() -> void:
 	if not _is_risen:
 		animation_player.play("rise")
-		print("rising")
 		_is_risen = true
 
 func lower() -> void:
 	if _is_risen:
 		animation_player.play_backwards("rise")
-		print("un-rising")
 		_is_risen = false

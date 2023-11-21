@@ -16,6 +16,14 @@ class_name ScaleManager
 @onready var _bar_length: float = abs(left_balance.position.x - right_balance.position.x)
 @onready var _arm_length: float = _bar_length / 2.0
 
+var _paused := false
+
+func pause() -> void:
+	_paused = true
+
+func unpause() -> void:
+	_paused = false
+
 func _ready() -> void:
 	_build_chain(
 		left_balance,
@@ -53,6 +61,8 @@ func _build_chain(balance: Balance, arm_connector: Node3D, balance_connector: No
 	chain.global_rotation_degrees.z = -signf(diff.x) * rad_to_deg(acos(diff.y / mesh.height))
 
 func _physics_process(delta: float) -> void:
+	if _paused:
+		return
 	_adjust_weights(delta)
 	_adjust_arm()
 
