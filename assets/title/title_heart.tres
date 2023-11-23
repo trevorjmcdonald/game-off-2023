@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://cvedxiuml1k1l"]
+
+[ext_resource type="Texture2D" uid="uid://b2j8r5ad1xq52" path="res://assets/title/death-scale-heart.png" id="1_kgmpw"]
+
+[resource]
+atlas = ExtResource("1_kgmpw")
+region = Rect2(496, 0, 216, 320)

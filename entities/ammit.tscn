@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://j3sbfwik76dm"]
+
+[ext_resource type="PackedScene" uid="uid://hx41wvjblex1" path="res:///assets/ammit/deathscale_ammit.gltf" id="1_0gyo4"]
+[ext_resource type="Script" path="res:///entities/Ammit.gd" id="1_feneo"]
+
+[sub_resource type="Animation" id="Animation_edyb4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("deathscale_ammit/Node2/Head/HeadBottom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.3822e-08, 0, -0.316209)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("deathscale_ammit:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.341, -4.156, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_au14u"]
+resource_name = "rise"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("deathscale_ammit:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.341, -4.156, 0), Vector3(-0.341, -0.187, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("deathscale_ammit/Node2/Head/HeadBottom:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.316), Vector3(1.03312e-09, 0, -0.023635)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ilbci"]
+_data = {
+"RESET": SubResource("Animation_edyb4"),
+"rise": SubResource("Animation_au14u")
+}
+
+[node name="Ammit" type="Node3D"]
+script = ExtResource("1_feneo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ilbci")
+}
+
+[node name="Above" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.24011, 0)
+
+[node name="Gullet" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.73706, 0)
+
+[node name="deathscale_ammit" parent="." instance=ExtResource("1_0gyo4")]
+transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, -0.341, -4.156, 0)
+
+[node name="HeadBottom" parent="deathscale_ammit/Node2/Head" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3822e-08, 0, -0.316209)
+
+[editable path="deathscale_ammit"]

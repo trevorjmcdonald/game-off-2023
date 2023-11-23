@@ -1,0 +1,78 @@
+[gd_scene load_steps=18 format=3 uid="uid://jyam3gaeumyk"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_allsn"]
+animation = &"RESET"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_exn2w"]
+animation = &"crouch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vjtgq"]
+animation = &"spirit_form"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nftmc"]
+animation = &"start_jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3155m"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_01s23"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hkkj0"]
+advance_mode = 2
+advance_expression = "_is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dmf7i"]
+advance_mode = 2
+advance_expression = "not is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_135ma"]
+advance_mode = 2
+advance_expression = "is_moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnaq7"]
+advance_mode = 2
+advance_expression = "not is_moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_727hy"]
+advance_mode = 2
+advance_expression = "is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t2vu5"]
+advance_mode = 2
+advance_expression = "not is_jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qabl1"]
+advance_mode = 2
+advance_expression = "is_crouched"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mye4k"]
+advance_mode = 2
+advance_expression = "not is_crouched"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7eot1"]
+advance_mode = 2
+advance_expression = "is_in_spirit_form"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_42p0n"]
+advance_mode = 2
+advance_expression = "not is_in_spirit_form"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ghmuf"]
+states/RESET/node = SubResource("AnimationNodeAnimation_allsn")
+states/RESET/position = Vector2(313, 205)
+states/Start/position = Vector2(179, 91)
+states/crouch/node = SubResource("AnimationNodeAnimation_exn2w")
+states/crouch/position = Vector2(459, 308)
+states/spirit_form/node = SubResource("AnimationNodeAnimation_vjtgq")
+states/spirit_form/position = Vector2(313, 308)
+states/start_jump/node = SubResource("AnimationNodeAnimation_nftmc")
+states/start_jump/position = Vector2(459, 44)
+states/walk/node = SubResource("AnimationNodeAnimation_3155m")
+states/walk/position = Vector2(605, 205)
+transitions = ["Start", "RESET", SubResource("AnimationNodeStateMachineTransition_01s23"), "RESET", "start_jump", SubResource("AnimationNodeStateMachineTransition_hkkj0"), "start_jump", "RESET", SubResource("AnimationNodeStateMachineTransition_dmf7i"), "RESET", "walk", SubResource("AnimationNodeStateMachineTransition_135ma"), "walk", "RESET", SubResource("AnimationNodeStateMachineTransition_mnaq7"), "walk", "start_jump", SubResource("AnimationNodeStateMachineTransition_727hy"), "start_jump", "walk", SubResource("AnimationNodeStateMachineTransition_t2vu5"), "RESET", "crouch", SubResource("AnimationNodeStateMachineTransition_qabl1"), "crouch", "RESET", SubResource("AnimationNodeStateMachineTransition_mye4k"), "RESET", "spirit_form", SubResource("AnimationNodeStateMachineTransition_7eot1"), "spirit_form", "RESET", SubResource("AnimationNodeStateMachineTransition_42p0n")]
+graph_offset = Vector2(-228, 5)
+
+[node name="AnimationTree" type="AnimationTree"]
+tree_root = SubResource("AnimationNodeStateMachine_ghmuf")
+anim_player = NodePath("../AnimationPlayer")

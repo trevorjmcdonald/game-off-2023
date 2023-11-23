@@ -1,0 +1,161 @@
+[gd_scene load_steps=9 format=3 uid="uid://b02ppggj5kvj0"]
+
+[ext_resource type="Script" path="res://levels/main_menu.gd" id="1_gqnnf"]
+[ext_resource type="Texture2D" uid="uid://d1l2ep4kd4l88" path="res://assets/title/title_balance.tres" id="1_nxa6v"]
+[ext_resource type="Texture2D" uid="uid://cvedxiuml1k1l" path="res://assets/title/title_heart.tres" id="2_f4x73"]
+[ext_resource type="Texture2D" uid="uid://dmx14j6vouups" path="res://assets/title/title_text.tres" id="3_s7kao"]
+
+[sub_resource type="Animation" id="Animation_0huiu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Heart:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(98, -2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Heart:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tqfbl"]
+resource_name = "heart_beat"
+length = 3.0
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Heart:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5, 2.25, 3),
+"transitions": PackedFloat32Array(0.5, 2.46229, 0.594604, 1.86607, 1),
+"update": 0,
+"values": [Vector2(98, -2), Vector2(96, 10), Vector2(98, -2), Vector2(98, -12), Vector2(98, -2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Heart:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.75, 1.5, 2.25, 3),
+"transitions": PackedFloat32Array(0.466517, 2.07053, 0.594604, 1.93187, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 0.95), Vector2(1, 1), Vector2(0.95, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pribu"]
+_data = {
+"RESET": SubResource("Animation_0huiu"),
+"heart_beat": SubResource("Animation_tqfbl")
+}
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_dv2oh"]
+specular_color = Color(0.117647, 0.117647, 0.117647, 1)
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_gqnnf")
+one_player_scene = "res://levels/death_scale.tscn"
+two_player_scene = "res://levels/death_scale.tscn"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+autoplay = "heart_beat"
+libraries = {
+"": SubResource("AnimationLibrary_pribu")
+}
+
+[node name="Background" type="TextureRect" parent="CanvasLayer"]
+modulate = Color(0.101961, 0.101961, 0.101961, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = SubResource("CanvasTexture_dv2oh")
+
+[node name="Balance" type="TextureRect" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_nxa6v")
+
+[node name="Heart" type="TextureRect" parent="CanvasLayer"]
+offset_left = 98.0
+offset_top = -2.0
+offset_right = 314.002
+offset_bottom = 318.0
+pivot_offset = Vector2(108, 160)
+texture = ExtResource("2_f4x73")
+
+[node name="HeartText" type="TextureRect" parent="CanvasLayer/Heart"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 152.0
+offset_right = 193.0
+offset_bottom = 256.0
+texture = ExtResource("3_s7kao")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -228.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="OnePlayer" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text = "One Player"
+alignment = 0
+
+[node name="TwoPlayer" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text = "Two Player"
+alignment = 0
+
+[node name="Quit" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+alignment = 0
