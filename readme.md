@@ -52,4 +52,5 @@ Game Engine: [Godot 4.1](https://godotengine.org/)\
 ### Attributions
 
 Anubis Background generated using [Fotor](https://www.fotor.com/)\
+Font is Rockboxcond12 found in the [nb-pixel-font-bundle](https://nimblebeastscollective.itch.io/nb-pixel-font-bundle)\
 Music and Sound Effects by [Andrea Baroni](https://andreabaroni.com/)
