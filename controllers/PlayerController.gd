@@ -1,4 +1,5 @@
 extends Node
+class_name PlayerController
 
 @export var buddy: DeathScaleBuddy
 @export var jump: StringName

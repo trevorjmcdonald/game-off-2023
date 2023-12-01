@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://bjleo7mh1p66y"]
+
+[ext_resource type="Script" path="res://entities/block.gd" id="1_cqcn8"]
+[ext_resource type="Material" uid="uid://c3hv1bmjcthpj" path="res://materials/sand_block.tres" id="1_itdg0"]
+[ext_resource type="Material" uid="uid://dl0o3chjuaeas" path="res://materials/brick_block.tres" id="2_y8mew"]
+[ext_resource type="Material" uid="uid://dr22mv6ywq5ti" path="res://materials/iron_block.tres" id="3_w65j5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6h01c"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_obu85"]
+material = ExtResource("1_itdg0")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="BigBlock" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 3
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+mass = 5.0
+can_sleep = false
+script = ExtResource("1_cqcn8")
+block_mats = Array[Material]([ExtResource("2_y8mew"), ExtResource("3_w65j5"), ExtResource("1_itdg0")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_6h01c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_obu85")

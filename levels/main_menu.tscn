@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b02ppggj5kvj0"]
+[gd_scene load_steps=10 format=3 uid="uid://b02ppggj5kvj0"]
 
 [ext_resource type="Script" path="res://levels/main_menu.gd" id="1_gqnnf"]
 [ext_resource type="Texture2D" uid="uid://d1l2ep4kd4l88" path="res://assets/title/title_balance.tres" id="1_nxa6v"]
+[ext_resource type="AudioStream" uid="uid://brh37omra03pi" path="res://assets/music/PyramidsPyramids_Underscore(loop)(104).wav" id="2_8xnhc"]
 [ext_resource type="Texture2D" uid="uid://cvedxiuml1k1l" path="res://assets/title/title_heart.tres" id="2_f4x73"]
 [ext_resource type="Texture2D" uid="uid://dmx14j6vouups" path="res://assets/title/title_text.tres" id="3_s7kao"]
 
@@ -76,6 +77,10 @@ script = ExtResource("1_gqnnf")
 one_player_scene = "res://levels/death_scale.tscn"
 two_player_scene = "res://levels/death_scale.tscn"
 
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_8xnhc")
+autoplay = true
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
@@ -138,6 +143,7 @@ theme_override_constants/separation = 16
 
 [node name="OnePlayer" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32

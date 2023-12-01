@@ -1,38 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0mph8xixnhgp"]
+[gd_scene load_steps=21 format=3 uid="uid://c0mph8xixnhgp"]
 
-[ext_resource type="PackedScene" uid="uid://ctaohayr71gfi" path="res:///assets/smite/deathscale_smite.gltf" id="1_3ehmh"]
-[ext_resource type="Script" path="res:///abilities/SmiteProjectile.gd" id="1_5rm7w"]
-[ext_resource type="Texture2D" uid="uid://rdbdrx75f5ph" path="res:///assets/smite/deathscale_smite_0.png" id="2_cegqk"]
-[ext_resource type="Texture2D" uid="uid://j6uhod3nunh0" path="res:///assets/smite/deathscale_smite_1.png" id="3_bhw1q"]
-
-[sub_resource type="Animation" id="Animation_asegw"]
-resource_name = "launch"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(3.13834, 3.73213),
-"update": 0,
-"values": [Vector3(0.1, 0.1, 0.1), Vector3(1.5, 1.5, 1.5)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"detonate"
-}]
-}
+[ext_resource type="PackedScene" uid="uid://ctaohayr71gfi" path="res://assets/smite/deathscale_smite.gltf" id="1_3ehmh"]
+[ext_resource type="Script" path="res://abilities/SmiteProjectile.gd" id="1_5rm7w"]
+[ext_resource type="Texture2D" uid="uid://rdbdrx75f5ph" path="res://assets/smite/deathscale_smite_0.png" id="2_cegqk"]
+[ext_resource type="AudioStream" uid="uid://2xk0yf0qt47y" path="res://assets/sfx/SFX_flameShot1.wav" id="2_xlruo"]
+[ext_resource type="AudioStream" uid="uid://dhu8eecpieg6c" path="res://assets/sfx/SFX_explosion1.wav" id="3_3pfqd"]
+[ext_resource type="Texture2D" uid="uid://j6uhod3nunh0" path="res://assets/smite/deathscale_smite_1.png" id="3_bhw1q"]
 
 [sub_resource type="Animation" id="Animation_cm1xi"]
 length = 0.001
@@ -139,6 +112,35 @@ tracks/3/keys = {
 "values": [Vector3(1.5, 1.5, 1.5), Vector3(0.1, 0.1, 0.1)]
 }
 
+[sub_resource type="Animation" id="Animation_asegw"]
+resource_name = "launch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(3.13834, 3.73213),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1), Vector3(1.5, 1.5, 1.5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"detonate"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ehm2x"]
 _data = {
 "RESET": SubResource("Animation_cm1xi"),
@@ -233,6 +235,11 @@ collision_layer = 2
 collision_mask = 2
 sync_to_physics = false
 script = ExtResource("1_5rm7w")
+shot_sfx = Array[AudioStream]([ExtResource("2_xlruo")])
+explosion_sfx = Array[AudioStream]([ExtResource("3_3pfqd")])
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+volume_db = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "launch"
@@ -275,7 +282,6 @@ monitorable = false
 shape = SubResource("SphereShape3D_pvmfk")
 
 [node name="BlastArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 0
 collision_mask = 2
 monitoring = false

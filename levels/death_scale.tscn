@@ -1,9 +1,13 @@
-[gd_scene load_steps=23 format=3 uid="uid://6mtrgvrgkax5"]
+[gd_scene load_steps=32 format=3 uid="uid://6mtrgvrgkax5"]
 
 [ext_resource type="Script" path="res://controllers/GameStateController.gd" id="1_6ra4x"]
+[ext_resource type="AudioStream" uid="uid://dj7wmice1wgpe" path="res://assets/music/PyramidsPyramids_Medium1(loop)(104).wav" id="1_l4gxj"]
+[ext_resource type="Script" path="res://controllers/PowerUpController.gd" id="2_mtmun"]
 [ext_resource type="Script" path="res://controllers/PlayerController.gd" id="2_rts08"]
-[ext_resource type="Script" path="res://controllers/AIController.gd" id="3_8gv3t"]
+[ext_resource type="PackedScene" uid="uid://buor6fnjxjx50" path="res://powerups/big_block_debuff.tscn" id="3_pw3pq"]
+[ext_resource type="PackedScene" uid="uid://dmwwtjtsmhuwp" path="res://powerups/fast_spawn_debuff.tscn" id="4_d0yn3"]
 [ext_resource type="Script" path="res://environment/ScaleManager.gd" id="4_wefv3"]
+[ext_resource type="PackedScene" uid="uid://crhh87c1x1wgd" path="res://powerups/slow_spawn_buff.tscn" id="5_17uwd"]
 [ext_resource type="Texture2D" uid="uid://xaeo5mfl73v7" path="res://assets/anubis/anubis.jpg" id="5_od33u"]
 [ext_resource type="ArrayMesh" uid="uid://c2y14vh0aoxuo" path="res://assets/scale/scale_body.res" id="6_ekoq1"]
 [ext_resource type="ArrayMesh" uid="uid://c5sa3m3xgronb" path="res://assets/scale/scale_body_top.res" id="7_bh8hu"]
@@ -16,8 +20,79 @@
 [ext_resource type="ArrayMesh" uid="uid://bb8o0c2trmvo4" path="res://assets/scale/scale_arm_2_tip.res" id="14_ija53"]
 [ext_resource type="PackedScene" uid="uid://cimbkscpmsjrm" path="res://environment/balance.tscn" id="15_ymbab"]
 [ext_resource type="PackedScene" uid="uid://f754ydhv3faj" path="res://entities/death_scale_buddy.tscn" id="16_7pnko"]
+[ext_resource type="PackedScene" uid="uid://bjleo7mh1p66y" path="res://entities/big_block.tscn" id="16_qbtnp"]
 [ext_resource type="PackedScene" uid="uid://j3sbfwik76dm" path="res://entities/ammit.tscn" id="17_x1yjh"]
 [ext_resource type="PackedScene" uid="uid://ddoeujgkmdctp" path="res://environment/murderzone.tscn" id="18_i8jfh"]
+
+[sub_resource type="Animation" id="Animation_8lqx1"]
+resource_name = "start_fight"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Panel/Fight:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["FIGHT
+FOR
+YOUR
+SOUL", "3", "2", "1"]
+}
+
+[sub_resource type="Animation" id="Animation_dytr0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Panel/Fight:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["FIGHT
+FOR
+YOUR
+SOUL"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xdmft"]
+_data = {
+"RESET": SubResource("Animation_dytr0"),
+"start_fight": SubResource("Animation_8lqx1")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vmjp"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 0.784314)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ij76v"]
 albedo_color = Color(0.141176, 0.152941, 0.156863, 1)
@@ -33,19 +108,80 @@ size = Vector3(20, 4, 10)
 
 [node name="DeathScale" type="Node3D"]
 
-[node name="GameStateController" type="Node" parent="." node_paths=PackedStringArray("left_balance", "right_balance", "left_buddy", "right_buddy", "left_spawner", "right_spawner", "scale_manager", "ammit", "danger_zone", "chomp_zone")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xdmft")
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7vmjp")
+
+[node name="Fight" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = -126.0
+offset_right = 54.0
+offset_bottom = 126.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "FIGHT
+FOR
+YOUR
+SOUL"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameStateController" type="Node" parent="." node_paths=PackedStringArray("left_balance", "right_balance", "left_buddy", "right_buddy", "left_controller", "right_controller", "left_spawner", "right_spawner", "scale_manager", "ammit", "danger_zone", "chomp_zone", "powerup_controller", "animation_player")]
 script = ExtResource("1_6ra4x")
 main_menu = "res://levels/main_menu.tscn"
 left_balance = NodePath("../LeftBalance")
 right_balance = NodePath("../RightBalance")
 left_buddy = NodePath("../LeftDeathScaleBuddy")
 right_buddy = NodePath("../RightDeathScaleBuddy")
+left_controller = NodePath("../Player1Controller")
+right_controller = NodePath("../Player2Controller")
 left_spawner = NodePath("../ScaleArm/ArmTip_Right/ChainConnector1/BlockSpawner")
 right_spawner = NodePath("../ScaleArm/ArmTip_Left/ChainConnector2/BlockSpawner2")
 scale_manager = NodePath("../ScaleManager")
 ammit = NodePath("../Ammit")
 danger_zone = NodePath("../DangerZone")
 chomp_zone = NodePath("../ChompZone")
+powerup_controller = NodePath("../PowerUpController")
+animation_player = NodePath("../AnimationPlayer")
+
+[node name="BGM" type="AudioStreamPlayer" parent="GameStateController"]
+stream = ExtResource("1_l4gxj")
+volume_db = -10.0
+autoplay = true
+
+[node name="PowerUpController" type="Node" parent="." node_paths=PackedStringArray("left_block_spawner", "right_block_spawner", "left_buddy", "right_buddy", "spawn_position")]
+script = ExtResource("2_mtmun")
+left_block_spawner = NodePath("../ScaleArm/ArmTip_Right/ChainConnector1/BlockSpawner")
+right_block_spawner = NodePath("../ScaleArm/ArmTip_Left/ChainConnector2/BlockSpawner2")
+left_buddy = NodePath("../LeftDeathScaleBuddy")
+right_buddy = NodePath("../RightDeathScaleBuddy")
+spawn_position = NodePath("SpawnPosition")
+powerups = Array[PackedScene]([ExtResource("3_pw3pq"), ExtResource("4_d0yn3"), ExtResource("5_17uwd")])
+
+[node name="SpawnTimer" type="Timer" parent="PowerUpController"]
+wait_time = 5.0
+one_shot = true
+
+[node name="SpawnPosition" type="Node3D" parent="PowerUpController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.72592, 0)
 
 [node name="Player1Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("2_rts08")
@@ -57,6 +193,7 @@ move_right = &"player1_move_right"
 ability_1 = &"player1_ability_1"
 ability_2 = &"player1_ability_2"
 ability_3 = &"player1_ability_3"
+paused = true
 
 [node name="Player2Controller" type="Node" parent="." node_paths=PackedStringArray("buddy")]
 script = ExtResource("2_rts08")
@@ -68,10 +205,6 @@ move_right = &"player2_move_right"
 ability_1 = &"player2_ability_1"
 ability_2 = &"player2_ability_2"
 ability_3 = &"player2_ability_3"
-
-[node name="AIController" type="Node" parent="." node_paths=PackedStringArray("buddy")]
-script = ExtResource("3_8gv3t")
-buddy = NodePath("../RightDeathScaleBuddy")
 paused = true
 
 [node name="ScaleManager" type="Node" parent="." node_paths=PackedStringArray("scale_arm", "left_chain_connector", "right_chain_connector", "left_balance", "right_balance")]
@@ -100,6 +233,9 @@ projection = 1
 current = true
 fov = 45.0
 size = 11.0
+
+[node name="PowerupSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="ScaleBody" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.870441, -1.00484)
@@ -131,7 +267,8 @@ transform = Transform3D(-2.27608e-09, 0.0603704, 0.0161762, 0.0625, 4.55783e-09,
 [node name="BlockSpawner" type="Node3D" parent="ScaleArm/ArmTip_Right/ChainConnector1"]
 transform = Transform3D(1, 1.45852e-08, -2.62914e-08, -1.45852e-08, 1, 6.70552e-07, 2.62914e-08, -6.70552e-07, 1, 0, 0, 0)
 script = ExtResource("10_jhpwi")
-block_scene = ExtResource("11_bpsck")
+default_block_scene = ExtResource("11_bpsck")
+big_block_scene = ExtResource("16_qbtnp")
 
 [node name="Timer" type="Timer" parent="ScaleArm/ArmTip_Right/ChainConnector1/BlockSpawner"]
 wait_time = 0.5
@@ -157,7 +294,8 @@ transform = Transform3D(7.74001e-09, -0.0603704, -0.0161762, -0.0625, -9.83557e-
 [node name="BlockSpawner2" type="Node3D" parent="ScaleArm/ArmTip_Left/ChainConnector2"]
 transform = Transform3D(1, 3.14738e-08, -2.17656e-08, -3.14738e-08, 1, 5.51343e-07, 2.17656e-08, -5.51343e-07, 1, 0, 0, 0)
 script = ExtResource("10_jhpwi")
-block_scene = ExtResource("11_bpsck")
+default_block_scene = ExtResource("11_bpsck")
+big_block_scene = ExtResource("16_qbtnp")
 
 [node name="Timer" type="Timer" parent="ScaleArm/ArmTip_Left/ChainConnector2/BlockSpawner2"]
 wait_time = 0.5
