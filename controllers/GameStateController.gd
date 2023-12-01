@@ -25,6 +25,9 @@ class_name GameStateController
 
 @export var animation_player: AnimationPlayer
 
+@onready var bgm_player: AudioStreamPlayer = $BGM
+
+var _started := false
 var _ending := false
 
 func _ready() -> void:
@@ -34,6 +37,19 @@ func _ready() -> void:
 	left_buddy.consumed.connect(_on_buddy_consumed.bind(left_buddy))
 	right_buddy.consumed.connect(_on_buddy_consumed.bind(right_buddy))
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.keycode == KEY_ESCAPE:
+			LevelController.request_quit()
+
+func _process(_delta: float) -> void:
+	if _started:
+		return
+	if Input.is_action_just_pressed("player1_ability_1"):
+		_started = true
+		_start()
+
+func _start() -> void:
 	animation_player.play("start_fight")
 	await animation_player.animation_finished
 	left_controller.set_deferred("paused", false)
@@ -42,24 +58,11 @@ func _ready() -> void:
 	left_spawner.unpause()
 	right_spawner.unpause()
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.keycode == KEY_ESCAPE:
-			LevelController.request_quit()
-
 func _on_danger_zone_body_entered(_body: Node3D) -> void:
-	#if body == left_balance:
-	#	print("left buddy in danger")
-	#elif body == right_balance:
-	#	print("right buddy in danger")
-	pass
+	bgm_player.pitch_scale = 1.5
 
 func _on_danger_zone_body_exited(_body: Node3D) -> void:
-	#if body == left_balance:
-	#	print("left buddy no longer in danger")
-	#elif body == right_balance:
-	#	print("right buddy no longer in danger")
-	pass
+	bgm_player.pitch_scale = 1.
 
 func _on_chomp_zone_body_entered(body: Node3D) -> void:
 	if body == left_balance:
@@ -78,6 +81,7 @@ func _begin_the_feed(buddy: DeathScaleBuddy) -> void:
 		right_spawner.pause()
 		left_controller.paused = true
 		right_controller.paused = true
+		powerup_controller.pause()
 		buddy.be_consumed(ammit)
 
 func _on_buddy_consumed(_buddy: DeathScaleBuddy) -> void:

@@ -24,6 +24,60 @@
 [ext_resource type="PackedScene" uid="uid://j3sbfwik76dm" path="res://entities/ammit.tscn" id="17_x1yjh"]
 [ext_resource type="PackedScene" uid="uid://ddoeujgkmdctp" path="res://environment/murderzone.tscn" id="18_i8jfh"]
 
+[sub_resource type="Animation" id="Animation_dytr0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Panel/MarginContainer/Fight:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Press
+Shoot
+To
+Begin"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Panel/MarginContainer/Player1Controls:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/Panel/MarginContainer/Player2Controls:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_8lqx1"]
 resource_name = "start_fight"
 length = 4.0
@@ -42,7 +96,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/Panel/Fight:text")
+tracks/1/path = NodePath("CanvasLayer/Panel/MarginContainer/Fight:text")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -54,35 +108,29 @@ FOR
 YOUR
 SOUL", "3", "2", "1"]
 }
-
-[sub_resource type="Animation" id="Animation_dytr0"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Panel/MarginContainer/Player1Controls:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/Panel/Fight:text")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/Panel/MarginContainer/Player2Controls:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": ["FIGHT
-FOR
-YOUR
-SOUL"]
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xdmft"]
@@ -123,26 +171,75 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_7vmjp")
 
-[node name="Fight" type="Label" parent="CanvasLayer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -54.0
-offset_top = -126.0
-offset_right = 54.0
-offset_bottom = 126.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Fight" type="Label" parent="CanvasLayer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
 theme_override_font_sizes/font_size = 64
-text = "FIGHT
-FOR
-YOUR
-SOUL"
+text = "Press
+Shoot
+To
+Begin"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Player1Controls" type="Label" parent="CanvasLayer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "Player 1 Controls
+
+Keyboard:
+  A/D to move left and right
+  S to crouch
+  Space to jump
+  G to shoot
+
+Controller:
+  D-Pad or right-stick to move
+    and crouch
+  A to jump
+  X to shoot
+
+Throw your myriad sins
+onto your opponent's
+platform, and ascend
+to the heavens."
+
+[node name="Player2Controls" type="Label" parent="CanvasLayer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "Player 2 Controls
+
+Keyboard:
+  ←/→ to move left and right
+  ↓ to crouch
+  Numpad 0 to jump
+  Numpad 1 to shoot
+
+Controller:
+  D-Pad or right-stick to move
+    and crouch
+  A to jump
+  X to shoot
+
+Throw your wicked deeds
+onto your opponent's
+platform, and ascend
+to the heavens."
 
 [node name="GameStateController" type="Node" parent="." node_paths=PackedStringArray("left_balance", "right_balance", "left_buddy", "right_buddy", "left_controller", "right_controller", "left_spawner", "right_spawner", "scale_manager", "ammit", "danger_zone", "chomp_zone", "powerup_controller", "animation_player")]
 script = ExtResource("1_6ra4x")
